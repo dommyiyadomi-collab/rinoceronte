@@ -204,6 +204,10 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   width: min(1120px, 100%);
 }
 
+.weather-page {
+  width: min(1120px, 100%);
+}
+
 .guide-section {
   margin-top: clamp(3rem, 6vw, 5rem);
 }
@@ -226,12 +230,12 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   color: var(--muted);
 }
 
-.checklist-grid, .picker-grid, .two-column, .decision-list, .city-profile-grid {
+.checklist-grid, .picker-grid, .weather-mode-grid, .two-column, .decision-list, .city-profile-grid, .season-grid {
   display: grid;
   gap: 1rem;
 }
 
-.checklist-grid, .picker-grid, .city-profile-grid {
+.checklist-grid, .picker-grid, .weather-mode-grid, .city-profile-grid, .season-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -387,6 +391,6 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   }
 
   .site-nav.is-open { display: flex; }
-  .card-grid, .newsletter, .checklist-grid, .picker-grid, .two-column, .city-profile-grid { grid-template-columns: 1fr; }
+  .card-grid, .newsletter, .checklist-grid, .picker-grid, .weather-mode-grid, .two-column, .city-profile-grid, .season-grid { grid-template-columns: 1fr; }
   .signup-form { flex-direction: column; }
 }

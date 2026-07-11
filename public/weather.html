@@ -1,1 +1,252 @@
-<!doctype html><html><head><meta charset='utf-8'><title>Weather</title><link rel='stylesheet' href='/style.css'></head><body><main><h1>Japan Weather (Planned)</h1><p>This page will use a live weather API for automatic updates.</p></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Japan Weather for Remote Workers | Digital Nomad Japan</title>
+  <meta name="description" content="Plan your Japan workday, city stay, and season around rain, heat, typhoons, snow, humidity, and workspace reliability.">
+  <meta property="og:title" content="Japan Weather for Remote Workers">
+  <meta property="og:description" content="A practical weather planner for remote workers choosing when and how to work in Japan.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="/og-placeholder.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Digital Nomad Japan home">
+      <span class="brand-mark">DN</span>
+      <span>Digital Nomad Japan</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/visa.html">Visa Guide</a>
+      <a href="/cities.html">Cities</a>
+      <a href="/weather.html">Weather</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page weather-page">
+    <p class="eyebrow">Weather planner</p>
+    <h1>Plan your workday, city stay, and season in Japan.</h1>
+    <p class="lead align-left">This is not a general weather forecast page. It translates Japan's rain, heat, humidity, typhoons, and snow into practical decisions for remote work: where to work, how to move, when to avoid travel, and what backup plan to prepare.</p>
+
+    <section class="notice-box" aria-labelledby="weather-answer-title">
+      <h2 id="weather-answer-title">Quick answer</h2>
+      <p>Check the official forecast first, then decide your work mode. Good weather supports cafe hopping and city movement. Heavy rain, heat, strong wind, snow, or typhoon risk means choosing a stable indoor workspace, staying near rail transit, and avoiding tight intercity or island transfers.</p>
+    </section>
+
+    <section class="guide-section" aria-labelledby="workability-title">
+      <div class="section-heading">
+        <p class="eyebrow">Workability</p>
+        <h2 id="workability-title">Turn the forecast into a work plan</h2>
+      </div>
+      <div class="weather-mode-grid">
+        <article class="check-card">
+          <span class="check-label">Clear or mild</span>
+          <h3>Travel day OK</h3>
+          <p>Good for city movement, coworking trials, cafe work, neighborhood scouting, and outdoor breaks between calls.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Rain likely</span>
+          <h3>Transit-first day</h3>
+          <p>Choose accommodation and workspace near rail or subway stations. Keep long walks, luggage moves, and cafe hopping flexible.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Heat or humidity</span>
+          <h3>Indoor deep-work day</h3>
+          <p>Prioritize air-conditioned coworking or hotel work. Avoid long sightseeing before meetings, especially in the afternoon.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Strong wind or typhoon risk</span>
+          <h3>Cancel fragile plans</h3>
+          <p>Avoid ferries, island transfers, exposed coastal routes, and same-day airport assumptions. Follow official warnings closely.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Snow or ice</span>
+          <h3>Stay close to transit</h3>
+          <p>In Hokkaido and colder regions, plan around slower movement, footwear, luggage friction, and possible transport disruption.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Warnings active</span>
+          <h3>Safety overrides productivity</h3>
+          <p>If official warnings or emergency warnings are active, treat weather as a safety issue rather than a scheduling inconvenience.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="city-weather-title">
+      <div class="section-heading">
+        <p class="eyebrow">City patterns</p>
+        <h2 id="city-weather-title">Weather considerations by base</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Base</th>
+              <th>Useful weather lens</th>
+              <th>Remote-work implication</th>
+              <th>Practical backup</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tokyo</td>
+              <td>Rain, heat, humidity, train congestion</td>
+              <td>Excellent indoor options, but summer can drain energy between calls.</td>
+              <td>Pick a neighborhood with multiple indoor work options within one or two stations.</td>
+            </tr>
+            <tr>
+              <td>Osaka</td>
+              <td>Summer heat, rain, Kansai day-trip timing</td>
+              <td>Strong urban base for indoor work and regional movement, with hot afternoons in summer.</td>
+              <td>Schedule sightseeing early or late, and keep a station-adjacent coworking fallback.</td>
+            </tr>
+            <tr>
+              <td>Fukuoka</td>
+              <td>Rain, humidity, typhoon-season awareness</td>
+              <td>Compact city layout helps, but weather can still affect island or Kyushu side trips.</td>
+              <td>Use the city center as the work anchor and keep trips flexible during storm risk.</td>
+            </tr>
+            <tr>
+              <td>Kyoto</td>
+              <td>Summer heat, seasonal crowds, rainy walking days</td>
+              <td>Slow work is pleasant, but weather and tourism pressure can make cafe work fragile.</td>
+              <td>Book a reliable desk first, then treat cafes as optional atmosphere.</td>
+            </tr>
+            <tr>
+              <td>Sapporo / Hokkaido</td>
+              <td>Snow, winter mobility, cold snaps</td>
+              <td>Great seasonal base if you plan around winter logistics instead of improvising daily.</td>
+              <td>Stay near transit, check snow conditions, and avoid tight same-day transfer chains.</td>
+            </tr>
+            <tr>
+              <td>Okinawa</td>
+              <td>Typhoons, wind, peak-season heat, island transfers</td>
+              <td>Excellent for slow living when stable, but weather can disrupt flights, ferries, and coastal plans.</td>
+              <td>Build buffer days, verify workspace Wi-Fi, and avoid fragile travel during storm periods.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="season-title">
+      <div class="section-heading">
+        <p class="eyebrow">Seasonality</p>
+        <h2 id="season-title">Choose your season like a work tool</h2>
+      </div>
+      <div class="season-grid">
+        <article class="city-profile">
+          <h3>Spring</h3>
+          <p class="city-tagline">Comfortable movement, high demand.</p>
+          <p>Often a strong all-round season for remote work, but popular travel periods can raise accommodation pressure. Book stable housing early.</p>
+        </article>
+        <article class="city-profile">
+          <h3>Rainy season</h3>
+          <p class="city-tagline">Plan indoor-first days.</p>
+          <p>Rain does not need to break productivity if your accommodation, coworking, food, and transit are close together.</p>
+        </article>
+        <article class="city-profile">
+          <h3>Summer</h3>
+          <p class="city-tagline">Heat and humidity affect output.</p>
+          <p>Use air-conditioned work blocks, lighter errands, and fewer midday transfers. Treat hydration and shade as work infrastructure.</p>
+        </article>
+        <article class="city-profile">
+          <h3>Typhoon season</h3>
+          <p class="city-tagline">Flexibility matters more than optimism.</p>
+          <p>Especially for Okinawa, Kyushu, coastal routes, and flights, build buffer days and watch official tropical cyclone information.</p>
+        </article>
+        <article class="city-profile">
+          <h3>Autumn</h3>
+          <p class="city-tagline">A strong all-round window.</p>
+          <p>Often good for city movement, focused work, and regional stays, while still checking storm risk early in the season.</p>
+        </article>
+        <article class="city-profile">
+          <h3>Winter</h3>
+          <p class="city-tagline">Mild cities or snow-focused bases.</p>
+          <p>Tokyo, Osaka, and Fukuoka can be practical winter bases. Sapporo and Hokkaido can be excellent if you actively plan for snow.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="decision-title">
+      <div class="section-heading">
+        <p class="eyebrow">Decision rules</p>
+        <h2 id="decision-title">Weather-based stay advice</h2>
+      </div>
+      <div class="decision-list">
+        <article>
+          <h3>If humidity is high</h3>
+          <p>Choose coworking or hotel work over cafe hopping. Save outdoor exploration for morning or evening.</p>
+        </article>
+        <article>
+          <h3>If rain is likely</h3>
+          <p>Stay near a train or subway line, avoid luggage moves, and confirm your workspace is reachable without a long exposed walk.</p>
+        </article>
+        <article>
+          <h3>If heat risk is high</h3>
+          <p>Do not stack sightseeing before client calls. Protect the part of the day that requires clear thinking.</p>
+        </article>
+        <article>
+          <h3>If wind or typhoon risk is active</h3>
+          <p>Avoid ferries, island transfers, coastal drives, and same-day airport assumptions. Follow JMA and local instructions.</p>
+        </article>
+        <article>
+          <h3>If snow is heavy</h3>
+          <p>Book near transit, use proper footwear, and keep meetings away from uncertain transfer windows.</p>
+        </article>
+        <article>
+          <h3>If official warnings are active</h3>
+          <p>Switch from productivity mode to safety mode. Check evacuation information and your accommodation's instructions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="checklist-title">
+      <div class="section-heading">
+        <p class="eyebrow">Arrival playbook</p>
+        <h2 id="checklist-title">First 24 hours weather checklist</h2>
+      </div>
+      <div class="content-box">
+        <p>Before you settle into a city, make the forecast operational. The goal is not perfect prediction. The goal is a backup plan that protects calls, sleep, transport, and safety.</p>
+        <ul class="document-list">
+          <li><strong>Check JMA:</strong> save the local forecast, warning map, and precipitation nowcast for your area.</li>
+          <li><strong>Install alerts:</strong> use JNTO Safety Tips or another trusted alert source in a language you understand.</li>
+          <li><strong>Test the route:</strong> walk or map the path from accommodation to your backup workspace before bad weather hits.</li>
+          <li><strong>Buy the basics:</strong> umbrella, water, cooling items, winter traction, or weather-appropriate shoes as needed.</li>
+          <li><strong>Save indoor options:</strong> coworking, supermarket, pharmacy, clinic, laundry, and late-night food near your stay.</li>
+          <li><strong>Protect travel days:</strong> add buffer time around flights, ferries, mountain routes, or winter rail transfers.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="source-box" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources used</h2>
+      <p>This page uses official Japanese weather and traveler-safety sources, then translates those signals into remote-work planning guidance. Live forecast cards can be added later, but official warnings should remain the safety layer.</p>
+      <ul class="plain-list">
+        <li><a href="https://www.jma.go.jp/jma/en/menu.html">Japan Meteorological Agency: Weather, climate, and disaster information</a></li>
+        <li><a href="https://www.data.jma.go.jp/multi/warn/index.html?lang=en">Japan Meteorological Agency: Weather warning and advisory</a></li>
+        <li><a href="https://www.data.jma.go.jp/multi/index.html?lang=en">Japan Meteorological Agency: Multilingual weather information</a></li>
+        <li><a href="https://www.jnto.go.jp/safety-tips/eng/index.html">JNTO Safety Tips for travelers</a></li>
+        <li><a href="https://www.japan.travel/en/japan-safe-travel-information/warning/">Japan Safe Travel Information: Emergency warnings</a></li>
+      </ul>
+      <p class="last-reviewed">Last reviewed: July 11, 2026</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Digital Nomad Japan. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+  </footer>
+
+  <script src="/main.js" defer></script>
+</body>
+</html>
