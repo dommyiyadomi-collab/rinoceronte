@@ -190,6 +190,104 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
 .page > p { color: var(--muted); font-size: 1.1rem; }
 .content-box { padding: 1.4rem; margin-top: 2rem; }
 
+.align-left {
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+.visa-page {
+  width: min(1080px, 100%);
+}
+
+.guide-section {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.notice-box, .source-box {
+  margin-top: 2rem;
+  padding: 1.4rem;
+  background: #eef7f2;
+  border: 1px solid rgba(31, 111, 80, 0.24);
+  border-radius: 1rem;
+}
+
+.notice-box h2, .source-box h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.45rem;
+}
+
+.notice-box p, .source-box p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.checklist-grid, .two-column, .decision-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.checklist-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.check-card, .decision-list article {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.check-label {
+  display: inline-flex;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.check-card h3, .decision-list h3 {
+  margin-bottom: 0.65rem;
+}
+
+.check-card p, .decision-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.warning-box {
+  border-color: rgba(217, 154, 78, 0.55);
+  background: #fff8ef;
+}
+
+.plain-list, .document-list {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
+.plain-list li, .document-list li {
+  margin-top: 0.65rem;
+}
+
+.source-box a {
+  color: var(--primary);
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.last-reviewed {
+  margin-top: 1rem !important;
+  font-size: 0.92rem;
+}
+
 .contact-form {
   display: grid;
   gap: 1rem;
@@ -250,6 +348,6 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   }
 
   .site-nav.is-open { display: flex; }
-  .card-grid, .newsletter { grid-template-columns: 1fr; }
+  .card-grid, .newsletter, .checklist-grid, .two-column { grid-template-columns: 1fr; }
   .signup-form { flex-direction: column; }
 }
