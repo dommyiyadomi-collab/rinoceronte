@@ -200,6 +200,10 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   width: min(1080px, 100%);
 }
 
+.city-page {
+  width: min(1120px, 100%);
+}
+
 .guide-section {
   margin-top: clamp(3rem, 6vw, 5rem);
 }
@@ -222,12 +226,12 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   color: var(--muted);
 }
 
-.checklist-grid, .two-column, .decision-list {
+.checklist-grid, .picker-grid, .two-column, .decision-list, .city-profile-grid {
   display: grid;
   gap: 1rem;
 }
 
-.checklist-grid {
+.checklist-grid, .picker-grid, .city-profile-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -235,7 +239,7 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.check-card, .decision-list article {
+.check-card, .decision-list article, .city-profile {
   padding: 1.25rem;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -252,13 +256,48 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   text-transform: uppercase;
 }
 
-.check-card h3, .decision-list h3 {
+.check-card h3, .decision-list h3, .city-profile h3 {
   margin-bottom: 0.65rem;
 }
 
-.check-card p, .decision-list p {
+.check-card p, .decision-list p, .city-profile p {
   margin: 0;
   color: var(--muted);
+}
+
+.city-tagline {
+  font-weight: 750;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.comparison-table th, .comparison-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.comparison-table th {
+  color: var(--primary);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: 0;
 }
 
 .warning-box {
@@ -348,6 +387,6 @@ input:disabled, textarea:disabled, button:disabled { opacity: 0.72; cursor: not-
   }
 
   .site-nav.is-open { display: flex; }
-  .card-grid, .newsletter, .checklist-grid, .two-column { grid-template-columns: 1fr; }
+  .card-grid, .newsletter, .checklist-grid, .picker-grid, .two-column, .city-profile-grid { grid-template-columns: 1fr; }
   .signup-form { flex-direction: column; }
 }
