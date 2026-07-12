@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Digital Nomad Japan | Coming Soon</title>
-  <meta name="description" content="A starter website for digital nomads visiting Japan.">
+  <title>Digital Nomad Japan | Remote Work Planning Guide</title>
+  <meta name="description" content="Plan a temporary remote-work stay in Japan with practical guidance on visas, city selection, weather, and local work friction.">
   <meta property="og:title" content="Digital Nomad Japan">
-  <meta property="og:description" content="Useful information for digital nomads visiting Japan. Coming soon.">
+  <meta property="og:description" content="Practical Japan guidance for remote workers and digital nomads planning a temporary stay.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/og-placeholder.svg">
-  <link rel="icon" href="/favicon.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -30,48 +30,147 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">For digital nomads visiting Japan</p>
-        <h1>Your complete guide to living and working remotely in Japan.</h1>
-        <p class="lead">This website is ready for Cloudflare Pages. Replace this temporary content with articles, guides, and service information when ready.</p>
+    <section class="hero home-hero">
+      <div class="hero-content home-hero-content">
+        <p class="eyebrow">Japan remote-work planning</p>
+        <h1>Make Japan feel less like a guess.</h1>
+        <p class="lead">Clear, source-aware guidance for remote workers choosing how to stay, where to work, and what to check before arriving in Japan.</p>
         <div class="actions">
-          <a class="button primary" href="/about.html">View concept</a>
-          <a class="button secondary" href="/contact.html">Contact</a>
+          <a class="button primary" href="/visa.html">Check visa fit</a>
+          <a class="button secondary" href="/cities.html">Compare cities</a>
+        </div>
+      </div>
+      <aside class="hero-brief" aria-label="Site focus">
+        <p class="brief-label">Planning lens</p>
+        <dl>
+          <div>
+            <dt>Stay</dt>
+            <dd>Visa scope, duration, insurance, official checks</dd>
+          </div>
+          <div>
+            <dt>Base</dt>
+            <dd>Tokyo, Osaka, Fukuoka, Kyoto, Sapporo, Okinawa</dd>
+          </div>
+          <div>
+            <dt>Workday</dt>
+            <dd>Weather, transit, internet, workspace backups</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="section value-section" aria-labelledby="value-title">
+      <div class="section-heading">
+        <p class="eyebrow">What this site does</p>
+        <h2 id="value-title">Turn scattered Japan research into practical decisions.</h2>
+      </div>
+      <div class="value-grid">
+        <article class="value-item">
+          <span>01</span>
+          <h3>Start with eligibility</h3>
+          <p>Understand whether Japan's digital nomad status may fit your work pattern before you plan the rest of the stay.</p>
+          <a href="/visa.html">Read the visa guide</a>
+        </article>
+        <article class="value-item">
+          <span>02</span>
+          <h3>Choose a city by function</h3>
+          <p>Compare city bases by work reliability, housing pressure, community access, transport, and seasonal friction.</p>
+          <a href="/cities.html">Compare city bases</a>
+        </article>
+        <article class="value-item">
+          <span>03</span>
+          <h3>Plan for the weather layer</h3>
+          <p>Translate heat, rain, snow, typhoons, and official warnings into safer workdays and less fragile travel plans.</p>
+          <a href="/weather.html">Plan around weather</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section planning-section" aria-labelledby="planning-title">
+      <div class="section-heading">
+        <p class="eyebrow">Decision map</p>
+        <h2 id="planning-title">A calm way to narrow the first big choices.</h2>
+      </div>
+      <div class="planning-layout">
+        <div class="japan-map-panel" role="img" aria-label="Japan city planning overview">
+          <div class="map-line"></div>
+          <div class="map-pin sapporo"><span>Sapporo</span></div>
+          <div class="map-pin tokyo"><span>Tokyo</span></div>
+          <div class="map-pin osaka"><span>Osaka</span></div>
+          <div class="map-pin fukuoka"><span>Fukuoka</span></div>
+          <div class="map-pin okinawa"><span>Okinawa</span></div>
+        </div>
+        <div class="decision-stack">
+          <article>
+            <p class="eyebrow">First</p>
+            <h3>Confirm what kind of stay you are planning.</h3>
+            <p>Short travel with light work, a structured remote-work stay, and long-term relocation are different planning problems.</p>
+          </article>
+          <article>
+            <p class="eyebrow">Next</p>
+            <h3>Pick the city that supports your work rhythm.</h3>
+            <p>A beautiful destination is not always a reliable work base. Housing, transit, climate, and community matter quickly.</p>
+          </article>
+          <article>
+            <p class="eyebrow">Then</p>
+            <h3>Build backups before you need them.</h3>
+            <p>Weather, workspace, internet, transport, and official warnings should shape the plan before arrival week.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section grid-section" aria-labelledby="features-title">
+    <section class="section city-strip-section" aria-labelledby="city-title">
       <div class="section-heading">
-        <p class="eyebrow">Starter sections</p>
-        <h2 id="features-title">Content areas prepared</h2>
+        <p class="eyebrow">Popular bases</p>
+        <h2 id="city-title">Choose by operating style, not only by atmosphere.</h2>
       </div>
-      <div class="card-grid">
-        <article class="card">
-          <h3>City guides</h3>
-          <p>Placeholder area for Tokyo, Osaka, Fukuoka, Kyoto, and other nomad-friendly locations.</p>
+      <div class="city-strip">
+        <a href="/cities.html">
+          <span>Tokyo</span>
+          <strong>Maximum convenience</strong>
+        </a>
+        <a href="/cities.html">
+          <span>Osaka</span>
+          <strong>Balanced big-city base</strong>
+        </a>
+        <a href="/cities.html">
+          <span>Fukuoka</span>
+          <strong>Compact community loop</strong>
+        </a>
+        <a href="/cities.html">
+          <span>Kyoto</span>
+          <strong>Slow cultural work rhythm</strong>
+        </a>
+        <a href="/cities.html">
+          <span>Okinawa</span>
+          <strong>Warm slowmad stay</strong>
+        </a>
+      </div>
+    </section>
+
+    <section class="section essentials-section" aria-labelledby="essentials-title">
+      <div class="section-heading">
+        <p class="eyebrow">Essential information</p>
+        <h2 id="essentials-title">What to check before the ticket feels real.</h2>
+      </div>
+      <div class="essentials-list">
+        <article>
+          <h3>Visa and allowed work</h3>
+          <p>Check whether your income, client location, stay length, and insurance story match the right route.</p>
         </article>
-        <article class="card">
-          <h3>Work essentials</h3>
-          <p>Placeholder area for coworking spaces, cafes, SIM cards, Wi-Fi, and banking information.</p>
+        <article>
+          <h3>Housing and daily logistics</h3>
+          <p>Month-plus stays can create friction around address proof, workspace access, phone setup, and neighborhood choice.</p>
         </article>
-        <article class="card">
-          <h3>Stay and lifestyle</h3>
-          <p>Placeholder area for accommodation, transport, community, and practical Japan tips.</p>
+        <article>
+          <h3>Weather and safety</h3>
+          <p>Rain, heat, typhoons, and snow can change where you work, how you move, and how much buffer time you need.</p>
         </article>
       </div>
     </section>
 
-<section class="section">
-<div class="section-heading"><p class="eyebrow">Live dashboard (planned)</p><h2>Japan Weather &amp; Interactive City Map</h2></div>
-<div class="card-grid">
-<article class="card"><h3>Live Weather</h3><p>Auto-updating weather for Tokyo, Osaka, Kyoto, Fukuoka, Sapporo and Okinawa using a weather API.</p></article>
-<article class="card"><h3>Interactive Japan Map</h3><p>Select a city to compare weather, cost of living, coworking, internet, accommodation and community.</p></article>
-<article class="card"><h3>Digital Nomad Dashboard</h3><p>Future widgets: visa updates, exchange rates, events and seasonal information.</p></article>
-</div></section>
-
-    <section class="section newsletter" aria-labelledby="next-step-title">
+    <section class="section newsletter guide-cta" aria-labelledby="next-step-title">
       <div>
         <p class="eyebrow">Start planning</p>
         <h2 id="next-step-title">Choose the guide that matches your next decision.</h2>
