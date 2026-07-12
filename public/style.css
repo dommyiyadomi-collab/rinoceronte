@@ -68,11 +68,12 @@ textarea:focus-visible {
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  color: white;
-  background: var(--text);
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.8rem;
+  color: transparent;
+  background: var(--surface) url("/site-icon.png") center / cover no-repeat;
+  border: 1px solid var(--line);
   font-size: 0.78rem;
 }
 
