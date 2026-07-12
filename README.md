@@ -1,35 +1,60 @@
-# Digital Nomad Japan - Static Starter Site
+# Japan Remote Guide
 
-Cloudflare Pages にアップロードできる静的サイトです。
+`japan-remote-guide.com` の静的サイトです。日本でのリモートワーク、長期滞在、都市選び、天候確認、問い合わせ導線、利用規約、プライバシーポリシーをまとめています。
 
-## 構成
+## Site
 
-- `public/index.html` トップページ
-- `public/visa.html` ビザ情報ページ
-- `public/cities.html` 都市情報ページ
-- `public/weather.html` 天気情報ページ
-- `public/about.html` 事業・サイト説明ページ
-- `public/contact.html` 問い合わせページの仮デザイン
-- `public/privacy.html` プライバシーポリシー仮ページ
-- `public/terms.html` 利用規約仮ページ
-- `public/style.css` デザイン
-- `public/main.js` 年表示・スマホメニュー
-- `wrangler.jsonc` Cloudflare Workers / Pages Assets 用設定
-- `public/_headers` Cloudflare Pages 用セキュリティヘッダー
-- `public/robots.txt` 検索エンジン用設定
-- `public/sitemap.xml` サイトマップ仮ファイル
+- Production: https://japan-remote-guide.com
+- Repository: https://github.com/dommyiyadomi-collab/rinoceronte
+- Hosting target: Cloudflare Workers / Pages Assets
 
-## Cloudflare Pages での使い方
+## Structure
 
-1. Cloudflare ダッシュボードを開く
-2. Workers & Pages → Pages → Create project
-3. Direct Upload を選択
-4. `public` フォルダ内のファイルをアップロード
-5. 独自ドメインを接続
+- `public/index.html` home
+- `public/visa.html` visa guide
+- `public/cities.html` city guide
+- `public/weather.html` remote work weather planner
+- `public/about.html` operator and site positioning
+- `public/contact.html` contact guidance
+- `public/feedback.html` requests and reviews
+- `public/privacy.html` privacy policy
+- `public/terms.html` terms of use
+- `public/style.css` shared design
+- `public/main.js` shared behavior
+- `public/_headers` Cloudflare security headers
+- `public/robots.txt` robots policy
+- `public/sitemap.xml` sitemap
+- `wrangler.jsonc` Cloudflare deployment settings
 
-## 公開前に変更する場所
+## Validation
 
-- `Digital Nomad Japan` を正式サイト名に変更
-- 独自ドメインを使う場合は `https://rinoceronte.pages.dev/` を自分のドメインに変更
-- `privacy.html` と `terms.html` の内容を正式化
-- 問い合わせフォームを外部サービスまたは Worker に接続
+Run the same checks used by GitHub Actions:
+
+```powershell
+npx --yes html-validate@latest "public/**/*.html"
+node scripts/check-internal-links.mjs
+```
+
+The internal link check verifies local `href` and `src` references in `public/**/*.html`.
+
+## Deployment Notes
+
+Cloudflare should serve the `public` directory. The current `wrangler.jsonc` uses:
+
+```json
+{
+  "name": "rinoceronte",
+  "assets": {
+    "directory": "./public"
+  }
+}
+```
+
+Do not merge older Cloudflare autoconfiguration changes unless they preserve the `./public` asset directory and the correct project name.
+
+## Repository Management
+
+- Keep `main` as the production branch.
+- Use pull requests for risky or multi-file changes.
+- Keep GitHub Actions green before publishing changes.
+- Prefer GitHub noreply email for future commits if personal email exposure is a concern.
