@@ -1,31 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact | Digital Nomad Japan</title>
-  <meta name="description" content="Contact page for Digital Nomad Japan.">
+  <title>Contact Digital Nomad Japan | Corrections and Collaboration</title>
+  <meta name="description" content="Contact Digital Nomad Japan with corrections, source suggestions, local updates, collaboration ideas, or media inquiries.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/"><span class="brand-mark">DN</span><span>Digital Nomad Japan</span></a>
+    <a class="brand" href="/" aria-label="Digital Nomad Japan home">
+      <span class="brand-mark">DN</span>
+      <span>Digital Nomad Japan</span>
+    </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <nav id="site-nav" class="site-nav"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/visa.html">Visa Guide</a>
+      <a href="/cities.html">Cities</a>
+      <a href="/weather.html">Weather</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
   </header>
-  <main class="page">
+
+  <main class="page visa-page">
     <p class="eyebrow">Contact</p>
-    <h1>Contact page</h1>
-    <p>This form is currently a design placeholder. Connect it later to Formspree, Google Forms, Cloudflare Workers, or another form backend.</p>
-    <form class="contact-form" action="#" method="post">
-      <label>Name<input type="text" name="name" placeholder="Your name" disabled></label>
-      <label>Email<input type="email" name="email" placeholder="email@example.com" disabled></label>
-      <label>Message<textarea name="message" rows="5" placeholder="Message" disabled></textarea></label>
-      <button type="submit" disabled>Send</button>
-    </form>
+    <h1>Contact Digital Nomad Japan.</h1>
+    <p class="lead align-left">We welcome corrections, source suggestions, local updates, collaboration ideas, and media inquiries that help make this site more useful for remote workers planning a temporary stay in Japan.</p>
+
+    <section class="notice-box" aria-labelledby="contact-status-title">
+      <h2 id="contact-status-title">Contact method in preparation</h2>
+      <p>The public contact form is being prepared. Before launch, this page defines what kinds of messages are useful and what private information should not be sent.</p>
+    </section>
+
+    <section class="guide-section" aria-labelledby="send-title">
+      <div class="section-heading">
+        <p class="eyebrow">Useful messages</p>
+        <h2 id="send-title">What to send</h2>
+      </div>
+      <div class="checklist-grid">
+        <article class="check-card">
+          <span class="check-label">Corrections</span>
+          <h3>Outdated or inaccurate information</h3>
+          <p>Tell us which page needs review and include the public source that supports the correction.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Sources</span>
+          <h3>Official or local references</h3>
+          <p>Share public government, city, safety, weather, transport, coworking, or destination sources that improve the guidance.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Local updates</span>
+          <h3>City and workspace information</h3>
+          <p>Suggest practical updates about coworking spaces, neighborhoods, housing friction, connectivity, seasonality, or arrival logistics.</p>
+        </article>
+        <article class="check-card">
+          <span class="check-label">Collaboration</span>
+          <h3>Partnership and media inquiries</h3>
+          <p>Reach out about interviews, editorial collaboration, local programs, destination partnerships, or other relevant projects.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="do-not-send-title">
+      <div class="section-heading">
+        <p class="eyebrow">Privacy and safety</p>
+        <h2 id="do-not-send-title">What not to send</h2>
+      </div>
+      <div class="content-box warning-box">
+        <p>Please do not send passport numbers, visa documents, tax records, bank details, medical information, insurance documents, employment contracts, or urgent personal legal questions. Digital Nomad Japan does not provide immigration, tax, legal, medical, insurance, or emergency advice.</p>
+        <ul class="plain-list">
+          <li>If your message is about a visa page, send the public source or page URL you want reviewed, not your private documents.</li>
+          <li>If your situation is urgent, contact the appropriate local authority, embassy, consulate, emergency service, or qualified professional.</li>
+          <li>If your question depends on your personal legal, tax, medical, or immigration status, seek professional advice instead of sending private details here.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="future-form-title">
+      <div class="section-heading">
+        <p class="eyebrow">Next step</p>
+        <h2 id="future-form-title">Planned contact form</h2>
+      </div>
+      <div class="decision-list">
+        <article>
+          <h3>Message category</h3>
+          <p>The future form should ask whether the message is a correction, source suggestion, local update, collaboration inquiry, media inquiry, or general note.</p>
+        </article>
+        <article>
+          <h3>Page or source URL</h3>
+          <p>The form should encourage links to public sources so updates can be checked without collecting sensitive private files.</p>
+        </article>
+        <article>
+          <h3>Privacy confirmation</h3>
+          <p>The form should require confirmation that the message does not include private passport, visa, tax, medical, banking, or legal documents.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="source-box" aria-labelledby="launch-title">
+      <h2 id="launch-title">Before public launch</h2>
+      <p>Connect this page to a secure contact method such as Google Forms, Formspree, a dedicated domain email address, or a Cloudflare Worker. Until that is ready, this page should remain an information and safety notice rather than a disabled form.</p>
+    </section>
   </main>
-  <footer class="site-footer"><p>&copy; <span id="year"></span> Digital Nomad Japan.</p><nav><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Digital Nomad Japan. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+  </footer>
+
   <script src="/main.js" defer></script>
 </body>
 </html>
