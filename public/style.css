@@ -1,16 +1,16 @@
 :root {
-  --bg: #f7f8fa;
+  --bg: #f8f6f0;
   --surface: #ffffff;
-  --surface-soft: #f1f3f6;
-  --text: #111317;
-  --muted: #5d6673;
-  --quiet: #8a93a0;
-  --line: #dfe3e8;
-  --primary: #0b5cad;
-  --primary-dark: #073f78;
+  --surface-soft: #f1eee7;
+  --text: #17202a;
+  --muted: #5a6570;
+  --quiet: #7b8490;
+  --line: #d8d2c4;
+  --primary: #102a43;
+  --primary-dark: #0b1d30;
   --warning: #fff5e6;
   --warning-line: #e9c47d;
-  --shadow: 0 18px 50px rgba(17, 19, 23, 0.08);
+  --shadow: none;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -57,24 +57,12 @@ textarea:focus-visible {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  color: var(--primary);
   font-weight: 760;
 }
 
-.brand span:last-child {
+.brand span {
   white-space: nowrap;
-}
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
-  border-radius: 0.8rem;
-  color: transparent;
-  background: var(--surface) url("/site-icon.png") center / cover no-repeat;
-  border: 1px solid var(--line);
-  font-size: 0.78rem;
 }
 
 .site-nav {
@@ -171,7 +159,7 @@ button {
   justify-content: center;
   min-height: 3rem;
   padding: 0.86rem 1.15rem;
-  border-radius: 999px;
+  border-radius: 4px;
   border: 1px solid var(--line);
   font: inherit;
   font-weight: 720;
@@ -209,7 +197,7 @@ button:hover {
   padding: 1.5rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 1.1rem;
+  border-radius: 6px;
   box-shadow: var(--shadow);
 }
 
@@ -324,7 +312,7 @@ button:hover {
   overflow: hidden;
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: 1.1rem;
+  border-radius: 6px;
 }
 
 .map-line {
@@ -441,7 +429,7 @@ button:hover {
 .contact-form {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 1.1rem;
+  border-radius: 6px;
   box-shadow: none;
 }
 
@@ -475,7 +463,7 @@ textarea {
   width: 100%;
   padding: 0.95rem 1rem;
   border: 1px solid var(--line);
-  border-radius: 0.75rem;
+  border-radius: 4px;
   font: inherit;
   background: var(--surface);
 }
@@ -532,7 +520,7 @@ button:disabled {
   padding: 1.35rem;
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 6px;
 }
 
 .notice-box h2,
@@ -576,7 +564,7 @@ button:disabled {
   padding: 1.25rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 6px;
 }
 
 .check-label {
@@ -609,7 +597,7 @@ button:disabled {
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 6px;
   background: var(--surface);
 }
 
@@ -779,7 +767,7 @@ button:disabled {
     padding: 1rem;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 1rem;
+    border-radius: 6px;
     box-shadow: var(--shadow);
   }
 
