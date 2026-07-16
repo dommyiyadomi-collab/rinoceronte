@@ -37,6 +37,30 @@ node scripts/check-internal-links.mjs
 
 The internal link check verifies local `href` and `src` references in `public/**/*.html`.
 
+## X Content Operations
+
+The repository includes a source-aware X draft workflow for article updates.
+
+```powershell
+node scripts/x-content-ops.mjs
+```
+
+The monitor compares the latest GitHub ref with `x/state/article-monitor.json`,
+detects new or updated article pages in `public/`, checks recent posts in
+`x/history/` and `x/archive/`, records sources in `x/sources/`, writes run logs
+to `x/logs/`, and saves only passing post candidates to `x/drafts/`.
+
+For analytics after a post is published, add raw X metrics JSON files under
+`x/analytics/raw/`, then run:
+
+```powershell
+node scripts/x-analytics-report.mjs
+```
+
+The analytics script creates 24-hour, 7-day, and 30-day analysis files in
+`x/analytics/` and improvement reports in `x/reports/`. See `x/README.md` for
+the expected metric fields and directory map.
+
 ## Deployment Notes
 
 Cloudflare should serve the `public` directory. The current `wrangler.jsonc` uses:
