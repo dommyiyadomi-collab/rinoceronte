@@ -8,14 +8,18 @@
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/site-icon.png" type="image/png" sizes="1024x1024">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css?v=20260716-redesign">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/" aria-label="Japan Remote Guide home">
+      <span class="brand-mark" aria-hidden="true"></span>
       <span>Japan Remote Guide</span>
     </a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-tooltip="Open menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="sr-only">Open menu</span>
+    </button>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation">
       <a href="/">Home</a>
       <a href="/visa.html">Visa Guide</a>
@@ -136,11 +140,24 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Japan Remote Guide. All rights reserved.</p>
-    <nav aria-label="Footer navigation">
-      <a href="/privacy.html">Privacy</a>
-      <a href="/terms.html">Terms</a>
-    </nav>
+    <div class="footer-inner">
+      <div>
+        <a class="footer-brand" href="/" aria-label="Japan Remote Guide home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Japan Remote Guide</span>
+        </a>
+        <p>Practical, source-aware guidance for remote workers planning a temporary stay in Japan.</p>
+        <p class="copyright">&copy; <span id="year"></span> Japan Remote Guide. All rights reserved.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/visa.html">Visa Guide</a>
+        <a href="/cities.html">Cities</a>
+        <a href="/weather.html">Weather</a>
+        <a href="/feedback.html">Requests</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
   </footer>
 
   <script src="/main.js" defer></script>

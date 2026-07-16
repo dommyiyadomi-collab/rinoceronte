@@ -8,20 +8,39 @@
   <meta property="og:title" content="Japan Remote Guide">
   <meta property="og:description" content="Practical Japan guidance for remote workers and digital nomads planning a temporary stay.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="/og-image.svg">
+  <meta property="og:image" content="/assets/og-japan-remote-guide.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/site-icon.png" type="image/png" sizes="1024x1024">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css?v=20260716-redesign">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Japan Remote Guide",
+    "url": "https://japan-remote-guide.com/",
+    "description": "Practical Japan guidance for remote workers and digital nomads planning a temporary stay.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Japan Remote Guide"
+    },
+    "inLanguage": "en"
+  }
+  </script>
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/" aria-label="Japan Remote Guide home">
+      <span class="brand-mark" aria-hidden="true"></span>
       <span>Japan Remote Guide</span>
     </a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-tooltip="Open menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="sr-only">Open menu</span>
+    </button>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-      <a href="/">Home</a>
+      <a href="/" aria-current="page">Home</a>
       <a href="/visa.html">Visa Guide</a>
       <a href="/cities.html">Cities</a>
       <a href="/weather.html">Weather</a>
@@ -34,30 +53,88 @@
     <section class="hero home-hero">
       <div class="hero-content home-hero-content">
         <p class="eyebrow">Japan remote-work planning</p>
-        <h1>Plan a remote-work stay in Japan with official sources nearby.</h1>
-        <p class="lead">Compare visa checks, city tradeoffs, weather risks, and local work friction before booking a temporary stay in Japan.</p>
+        <h1>Remote-work planning for Japan.</h1>
+        <p class="lead">Compare visa fit, city tradeoffs, weather risk, housing friction, and workday backups before booking a temporary stay.</p>
         <div class="actions">
-          <a class="button primary" href="/visa.html">Check visa fit</a>
-          <a class="button secondary" href="/cities.html">Compare cities</a>
+          <a class="button primary" href="/visa.html" data-tooltip="Start with eligibility">Check visa fit</a>
+          <a class="button secondary" href="/cities.html" data-tooltip="Find the right base">Compare cities</a>
         </div>
       </div>
+      <figure class="hero-media">
+        <picture>
+          <source media="(max-width: 760px)" srcset="/assets/hero-workspace-small.webp" type="image/webp">
+          <img src="/assets/hero-workspace.webp" width="1600" height="877" alt="A calm Japanese workspace with a laptop, notebook, travel folder, and natural morning light." fetchpriority="high" decoding="async">
+        </picture>
+        <figcaption class="hero-caption">A calmer way to choose where to stay, how to work, and what to verify before arrival.</figcaption>
+      </figure>
       <aside class="hero-brief" aria-label="Site focus">
         <p class="brief-label">Planning lens</p>
         <dl>
           <div>
             <dt>Stay</dt>
-            <dd>Visa scope, duration, insurance, official checks</dd>
+            <dd>Visa scope, duration, insurance, official checks.</dd>
           </div>
           <div>
             <dt>Base</dt>
-            <dd>Tokyo, Osaka, Fukuoka, Kyoto, Sapporo, Okinawa</dd>
+            <dd>Tokyo, Osaka, Fukuoka, Kyoto, Sapporo, Okinawa.</dd>
           </div>
           <div>
             <dt>Workday</dt>
-            <dd>Weather, transit, internet, workspace backups</dd>
+            <dd>Weather, transit, internet, workspace backups.</dd>
           </div>
         </dl>
       </aside>
+    </section>
+
+    <section class="section showcase-section" aria-labelledby="showcase-title">
+      <div class="rail-header">
+        <div class="section-heading">
+          <p class="eyebrow">Explore guides</p>
+          <h2 id="showcase-title">Swipe through the decisions that shape a smooth Japan stay.</h2>
+        </div>
+        <div class="rail-controls" role="group" aria-label="Featured guide controls">
+          <button class="rail-button rail-prev" type="button" aria-label="Scroll featured guides left" aria-controls="home-rail" data-tooltip="Previous"></button>
+          <button class="rail-button rail-next" type="button" aria-label="Scroll featured guides right" aria-controls="home-rail" data-tooltip="Next"></button>
+        </div>
+      </div>
+      <div class="horizontal-rail" id="home-rail" tabindex="0" aria-label="Featured planning guides">
+        <article class="rail-card visa">
+          <span>Popular guide</span>
+          <h3>Visa Guide</h3>
+          <p>Check whether Japan's digital nomad status may fit your stay length, income, insurance, and work pattern.</p>
+          <a class="card-link" href="/visa.html">Start eligibility</a>
+        </article>
+        <article class="rail-card cities">
+          <span>Recommended cities</span>
+          <h3>Tokyo, Osaka, Fukuoka, Kyoto, Sapporo, Okinawa</h3>
+          <p>Choose a base by workspace reliability, housing pressure, transport, climate, and community access.</p>
+          <a class="card-link" href="/cities.html">Compare bases</a>
+        </article>
+        <article class="rail-card nomad">
+          <span>Digital Nomad Tips</span>
+          <h3>Build a less fragile first week</h3>
+          <p>Turn arrival tasks into a practical checklist for internet, workspace backups, daily errands, and compliance.</p>
+          <a class="card-link" href="/cities.html#hours-title">View checklist</a>
+        </article>
+        <article class="rail-card accommodation">
+          <span>Accommodation</span>
+          <h3>Plan for month-plus friction</h3>
+          <p>Think beyond aesthetics: extension options, video-call stability, address proof, and neighborhood rhythm matter.</p>
+          <a class="card-link" href="/feedback.html">Request a housing guide</a>
+        </article>
+        <article class="rail-card esim">
+          <span>eSIM</span>
+          <h3>Keep connectivity boring</h3>
+          <p>Prepare mobile data before arrival, then test room Wi-Fi and upload speed from the actual desk you will use.</p>
+          <a class="card-link" href="/feedback.html">Request an eSIM guide</a>
+        </article>
+        <article class="rail-card travel">
+          <span>Travel Guide</span>
+          <h3>Let weather shape the plan</h3>
+          <p>Rain, heat, wind, typhoons, and snow change which travel days are resilient and which need a backup.</p>
+          <a class="card-link" href="/weather.html">Plan weather</a>
+        </article>
+      </div>
     </section>
 
     <section class="section value-section" aria-labelledby="value-title">
@@ -93,10 +170,19 @@
         <h2 id="planning-title">Narrow the first choices by stay length, work setup, and local constraints.</h2>
       </div>
       <div class="planning-layout">
-        <div class="japan-map-panel" role="img" aria-label="Japan city planning overview">
-          <div class="map-line"></div>
+        <div class="japan-map-panel" role="img" aria-label="Japan map with remote-work base pins">
+          <svg class="japan-map" viewBox="0 0 420 560" aria-hidden="true" focusable="false">
+            <path class="map-island" data-island="Hokkaido" d="M286 35c26-13 61-7 79 18 18 24 13 55-11 72-25 18-62 12-87-9-24-20-20-61 19-81z"/>
+            <path class="map-island" data-island="Honshu" d="M285 145c23 13 36 38 31 65-5 26-25 43-48 58-20 13-29 28-34 53-7 36-29 59-63 71-31 11-62 5-78-17-9-13-3-29 13-35 23-9 47-3 67-19 18-14 21-35 22-60 1-31 19-48 43-64 23-15 32-34 47-52z"/>
+            <path class="map-island secondary" data-island="Shikoku" d="M150 385c26-12 58-7 71 10-15 19-55 24-82 11-12-6-8-16 11-21z"/>
+            <path class="map-island secondary" data-island="Kyushu" d="M111 373c25 0 43 19 42 45-1 28-24 50-52 46-26-4-43-29-34-55 7-22 22-36 44-36z"/>
+            <circle class="map-islet" data-island="Okinawa" cx="128" cy="502" r="8"/>
+            <circle class="map-islet" cx="151" cy="516" r="5"/>
+            <circle class="map-islet" cx="172" cy="527" r="4"/>
+          </svg>
           <div class="map-pin sapporo"><span>Sapporo</span></div>
           <div class="map-pin tokyo"><span>Tokyo</span></div>
+          <div class="map-pin kyoto"><span>Kyoto</span></div>
           <div class="map-pin osaka"><span>Osaka</span></div>
           <div class="map-pin fukuoka"><span>Fukuoka</span></div>
           <div class="map-pin okinawa"><span>Okinawa</span></div>
@@ -128,22 +214,32 @@
       </div>
       <div class="city-strip">
         <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/tokyo.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
           <span>Tokyo</span>
           <strong>Maximum convenience</strong>
         </a>
         <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/osaka.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
           <span>Osaka</span>
           <strong>Balanced big-city base</strong>
         </a>
         <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/fukuoka.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
           <span>Fukuoka</span>
           <strong>Compact community loop</strong>
         </a>
         <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/kyoto.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
           <span>Kyoto</span>
           <strong>Slow cultural work rhythm</strong>
         </a>
         <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/sapporo.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
+          <span>Sapporo</span>
+          <strong>Seasonal spacious living</strong>
+        </a>
+        <a href="/cities.html">
+          <img class="city-thumb" src="/assets/cities/okinawa.webp" width="160" height="90" alt="" loading="lazy" decoding="async">
           <span>Okinawa</span>
           <strong>Warm slowmad stay</strong>
         </a>
@@ -178,20 +274,33 @@
         <p>Start with visa fit, compare city bases, or plan around Japan's weather before booking a remote-work stay.</p>
       </div>
       <nav class="signup-form" aria-label="Planning guide links">
-        <a class="button primary" href="/visa.html">Check visa fit</a>
-        <a class="button secondary" href="/cities.html">Compare cities</a>
-        <a class="button secondary" href="/weather.html">Plan weather</a>
-        <a class="button secondary" href="/feedback.html">Request a guide</a>
+        <a class="button primary" href="/visa.html" data-tooltip="Start with eligibility">Check visa fit</a>
+        <a class="button secondary" href="/cities.html" data-tooltip="Choose a base">Compare cities</a>
+        <a class="button secondary" href="/weather.html" data-tooltip="Avoid fragile travel days">Plan weather</a>
+        <a class="button secondary" href="/feedback.html" data-tooltip="Suggest the next guide">Request a guide</a>
       </nav>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Japan Remote Guide. All rights reserved.</p>
-    <nav aria-label="Footer navigation">
-      <a href="/privacy.html">Privacy</a>
-      <a href="/terms.html">Terms</a>
-    </nav>
+    <div class="footer-inner">
+      <div>
+        <a class="footer-brand" href="/" aria-label="Japan Remote Guide home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Japan Remote Guide</span>
+        </a>
+        <p>Practical, source-aware guidance for remote workers planning a temporary stay in Japan.</p>
+        <p class="copyright">&copy; <span id="year"></span> Japan Remote Guide. All rights reserved.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/visa.html">Visa Guide</a>
+        <a href="/cities.html">Cities</a>
+        <a href="/weather.html">Weather</a>
+        <a href="/feedback.html">Requests</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
   </footer>
 
   <script src="/main.js" defer></script>
