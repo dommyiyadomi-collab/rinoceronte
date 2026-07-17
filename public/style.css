@@ -895,7 +895,8 @@ button:not(.nav-toggle):not(.rail-button):hover {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   min-height: 3rem;
   padding: 0.92rem 1rem;
@@ -913,8 +914,10 @@ textarea {
 
 input:hover,
 textarea:hover,
+select:hover,
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: rgba(0, 110, 219, 0.34);
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(0, 110, 219, 0.08);
@@ -922,6 +925,7 @@ textarea:focus {
 
 input:disabled,
 textarea:disabled,
+select:disabled,
 button:disabled {
   opacity: 0.72;
   cursor: not-allowed;
@@ -956,7 +960,10 @@ button:disabled {
   width: min(1080px, 100%);
 }
 
-.city-page,
+.city-page {
+  width: min(1320px, 100%);
+}
+
 .weather-page {
   width: min(1120px, 100%);
 }
@@ -1003,6 +1010,211 @@ button:disabled {
 }
 
 .two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.city-tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.city-preferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.city-preferences fieldset {
+  display: grid;
+  gap: 0.46rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 14px 34px rgba(30, 45, 70, 0.07);
+}
+
+.city-preferences legend {
+  padding: 0;
+  color: var(--blue-dark);
+  font-size: 0.76rem;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.city-preferences label {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  padding: 0.55rem 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.city-preferences input[type="radio"] {
+  width: 1rem;
+  min-height: auto;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  accent-color: var(--blue);
+  box-shadow: none;
+}
+
+.city-match-result,
+.versus-card {
+  min-width: 0;
+  padding: 1.25rem;
+  background: var(--surface-glass);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 48px rgba(30, 45, 70, 0.08);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.city-match-result {
+  position: sticky;
+  top: 5rem;
+}
+
+.result-label {
+  margin: 0 0 0.45rem !important;
+  color: var(--quiet) !important;
+  font-size: 0.76rem !important;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.city-match-result h3 {
+  margin-bottom: 0.7rem;
+  font-size: 2rem;
+}
+
+.city-match-result > p:not(.result-label) {
+  margin: 0;
+  color: var(--muted);
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.result-grid div,
+.city-facts div,
+.versus-card dl div {
+  min-width: 0;
+  padding-top: 0.72rem;
+  border-top: 1px solid rgba(24, 35, 52, 0.1);
+}
+
+.result-grid span,
+.city-facts dt,
+.versus-card dt {
+  display: block;
+  color: var(--quiet);
+  font-size: 0.74rem;
+  font-weight: 760;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.result-grid strong,
+.city-facts dd,
+.versus-card dd {
+  display: block;
+  margin: 0.24rem 0 0;
+  color: var(--text);
+  font-size: 0.93rem;
+  font-weight: 680;
+  line-height: 1.42;
+}
+
+.rating-chip {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.42rem 0.32rem 0;
+  padding: 0.16rem 0.46rem;
+  border: 1px solid rgba(24, 35, 52, 0.12);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 760;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.rating-chip.strong {
+  color: #05604b;
+  background: rgba(138, 217, 191, 0.24);
+  border-color: rgba(5, 96, 75, 0.16);
+}
+
+.rating-chip.mixed {
+  color: #78520b;
+  background: rgba(255, 221, 155, 0.28);
+  border-color: rgba(120, 82, 11, 0.16);
+}
+
+.rating-chip.watch {
+  color: #9a3f24;
+  background: rgba(255, 210, 190, 0.32);
+  border-color: rgba(154, 63, 36, 0.16);
+}
+
+.city-versus {
+  display: grid;
+  gap: 1rem;
+}
+
+.versus-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.versus-controls label {
+  display: grid;
+  gap: 0.38rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 720;
+}
+
+.versus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.versus-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.versus-card dl,
+.city-facts {
+  display: grid;
+  gap: 0.78rem;
+  margin: 1rem 0 0;
+}
+
+.city-facts {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -1073,8 +1285,9 @@ button:disabled {
 
 .comparison-table {
   width: 100%;
-  min-width: 820px;
+  min-width: 0;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .comparison-table th,
@@ -1091,6 +1304,20 @@ button:disabled {
   font-weight: 760;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 1px 0 0 rgba(24, 35, 52, 0.1);
+  width: 7.2rem;
+}
+
+.comparison-table th:first-child {
+  z-index: 2;
 }
 
 .comparison-table tr:last-child td {
@@ -1246,6 +1473,18 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
+  .use-case-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .city-tool {
+    grid-template-columns: 1fr;
+  }
+
+  .city-match-result {
+    position: static;
+  }
+
   .value-item {
     min-height: 0;
   }
@@ -1364,11 +1603,91 @@ button:disabled {
 
   .checklist-grid,
   .picker-grid,
+  .use-case-grid,
   .weather-mode-grid,
   .two-column,
   .city-profile-grid,
-  .season-grid {
+  .season-grid,
+  .city-preferences,
+  .versus-controls,
+  .versus-grid,
+  .city-facts,
+  .result-grid {
     grid-template-columns: 1fr;
+  }
+
+  .city-preferences fieldset,
+  .city-match-result,
+  .versus-card {
+    padding: 1rem;
+  }
+
+  .table-wrap {
+    overflow-x: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .comparison-table {
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0 0.8rem;
+  }
+
+  .comparison-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .comparison-table tbody,
+  .comparison-table tr,
+  .comparison-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .comparison-table tr {
+    padding: 0.9rem 1rem;
+    background: var(--surface-glass);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: var(--radius);
+    box-shadow: 0 14px 34px rgba(30, 45, 70, 0.07);
+  }
+
+  .comparison-table td {
+    display: block;
+    padding: 0.64rem 0;
+    border-bottom: 1px solid rgba(24, 35, 52, 0.08);
+  }
+
+  .comparison-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--quiet);
+    font-size: 0.72rem;
+    font-weight: 760;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .comparison-table th:first-child,
+  .comparison-table td:first-child {
+    position: static;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .comparison-table td:last-child {
+    border-bottom: 0;
   }
 
   .signup-form {

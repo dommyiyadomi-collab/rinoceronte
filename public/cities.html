@@ -45,41 +45,150 @@
       <p>Start with the city that matches the work pattern you actually need. Tokyo fits maximum convenience, Osaka fits a balanced big-city routine, Fukuoka fits community-led longer stays, Kyoto fits culture-focused slow work, Sapporo fits seasonal spacious living, and Okinawa fits warm-weather slowmads who plan around seasonality and mobility.</p>
     </section>
 
+    <section class="guide-section" aria-labelledby="matcher-title">
+      <div class="section-heading">
+        <p class="eyebrow">Match finder</p>
+        <h2 id="matcher-title">Start with the work pattern you need to protect.</h2>
+      </div>
+      <div class="city-tool" data-city-matcher>
+        <div class="city-preferences" aria-describedby="city-match-summary">
+          <fieldset>
+            <legend>Stay length</legend>
+            <label>
+              <input type="radio" name="stay" value="short" checked>
+              <span>Under 2 weeks</span>
+            </label>
+            <label>
+              <input type="radio" name="stay" value="month">
+              <span>1 to 3 months</span>
+            </label>
+            <label>
+              <input type="radio" name="stay" value="seasonal">
+              <span>Seasonal stay</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Main priority</legend>
+            <label>
+              <input type="radio" name="priority" value="convenience" checked>
+              <span>Maximum convenience</span>
+            </label>
+            <label>
+              <input type="radio" name="priority" value="budget">
+              <span>Lower housing friction</span>
+            </label>
+            <label>
+              <input type="radio" name="priority" value="community">
+              <span>Community access</span>
+            </label>
+            <label>
+              <input type="radio" name="priority" value="deep-work">
+              <span>Deep work rhythm</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Work reliability</legend>
+            <label>
+              <input type="radio" name="calls" value="critical" checked>
+              <span>Calls must be protected</span>
+            </label>
+            <label>
+              <input type="radio" name="calls" value="normal">
+              <span>Normal remote workload</span>
+            </label>
+            <label>
+              <input type="radio" name="calls" value="flexible">
+              <span>Flexible schedule</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Daily movement</legend>
+            <label>
+              <input type="radio" name="movement" value="car-free" checked>
+              <span>No car required</span>
+            </label>
+            <label>
+              <input type="radio" name="movement" value="regional">
+              <span>Regional side trips</span>
+            </label>
+            <label>
+              <input type="radio" name="movement" value="local">
+              <span>Mostly local routine</span>
+            </label>
+          </fieldset>
+          <fieldset>
+            <legend>Season preference</legend>
+            <label>
+              <input type="radio" name="season" value="any" checked>
+              <span>Any practical season</span>
+            </label>
+            <label>
+              <input type="radio" name="season" value="warm">
+              <span>Warm weather base</span>
+            </label>
+            <label>
+              <input type="radio" name="season" value="winter">
+              <span>Winter or snow access</span>
+            </label>
+            <label>
+              <input type="radio" name="season" value="stable">
+              <span>Lower weather disruption</span>
+            </label>
+          </fieldset>
+        </div>
+        <div class="city-match-result" id="city-match-summary" aria-live="polite">
+          <p class="result-label">Best match</p>
+          <h3 data-match-city>Tokyo</h3>
+          <p data-match-copy>Maximum convenience, deep transit, and the widest workspace backup network make Tokyo the safest first choice when meetings cannot fail.</p>
+          <div class="result-grid">
+            <div>
+              <span>Good alternative</span>
+              <strong data-match-alternative>Osaka</strong>
+            </div>
+            <div>
+              <span>Be careful if</span>
+              <strong data-match-caution>housing cost is the main constraint</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="guide-section" aria-labelledby="picker-title">
       <div class="section-heading">
         <p class="eyebrow">Start here</p>
-        <h2 id="picker-title">Pick by what you need most</h2>
+        <h2 id="picker-title">Pick by the decision you are really making.</h2>
       </div>
-      <div class="picker-grid">
+      <div class="use-case-grid">
         <article class="check-card">
-          <span class="check-label">Maximum convenience</span>
+          <span class="check-label">First Japan work stay</span>
           <h3>Tokyo</h3>
-          <p>Choose Tokyo if you want the deepest coworking, events, transit, food, and international access, and you can absorb the housing cost.</p>
+          <p>The safest default when you need English support, deep transit, events, late food, and several workspace backups.</p>
         </article>
         <article class="check-card">
-          <span class="check-label">Balanced city base</span>
+          <span class="check-label">Balanced big-city routine</span>
           <h3>Osaka</h3>
-          <p>Choose Osaka if you want big-city infrastructure with less intensity than Tokyo and fast access to Kyoto, Kobe, and Nara.</p>
+          <p>Best when you want strong infrastructure, lower intensity than Tokyo, and easy Kansai travel without changing base.</p>
         </article>
         <article class="check-card">
-          <span class="check-label">Community and livability</span>
+          <span class="check-label">Community-led month</span>
           <h3>Fukuoka</h3>
-          <p>Choose Fukuoka if you want a friendlier landing, compact urban life, startup energy, and a clearer digital-nomad community path.</p>
+          <p>The clearest match for compact daily life, airport access, startup energy, and visible digital-nomad positioning.</p>
         </article>
         <article class="check-card">
-          <span class="check-label">Culture and slow rhythm</span>
+          <span class="check-label">Deep work and culture</span>
           <h3>Kyoto</h3>
-          <p>Choose Kyoto if your ideal stay is slower, design-led, and culture-heavy, while accepting tourism pressure and stricter cafe etiquette.</p>
+          <p>Strong for writers, designers, researchers, and slow routines when you secure a proper workspace outside peak crowds.</p>
         </article>
         <article class="check-card">
-          <span class="check-label">Nature and space</span>
+          <span class="check-label">Winter or spacious season</span>
           <h3>Sapporo / Hokkaido</h3>
-          <p>Choose Sapporo if you want city services with access to mountains, snow, open space, and a more seasonal remote-work rhythm.</p>
+          <p>The strongest seasonal option for snow, space, mountains, and an urban base before wider Hokkaido travel.</p>
         </article>
         <article class="check-card">
-          <span class="check-label">Warm slowmad stay</span>
+          <span class="check-label">Warm slowmad reset</span>
           <h3>Okinawa</h3>
-          <p>Choose Okinawa if you value sea, warmth, and slower living, and you can plan around typhoons, peak pricing, and possible car dependence.</p>
+          <p>Best for sea, recovery time, and slower living when you pre-check Wi-Fi, mobility, seasonality, and typhoon backup plans.</p>
         </article>
       </div>
     </section>
@@ -95,63 +204,134 @@
             <tr>
               <th>City</th>
               <th>Work reliability</th>
-              <th>Housing pressure</th>
+              <th>Housing friction</th>
               <th>Community access</th>
-              <th>Best stay length</th>
-              <th>Main watch-out</th>
+              <th>Mobility</th>
+              <th>Season risk</th>
+              <th>Best for</th>
+              <th>Avoid if</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Tokyo</td>
-              <td>Very strong</td>
-              <td>High</td>
-              <td>Huge but fragmented</td>
-              <td>1 week to 2 months</td>
-              <td>Cost and neighborhood choice</td>
+              <td data-label="City"><strong>Tokyo</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip strong">Strong</span> Widest workspace backup network.</td>
+              <td data-label="Housing friction"><span class="rating-chip watch">High</span> Cost and neighborhood fit matter early.</td>
+              <td data-label="Community access"><span class="rating-chip mixed">Mixed</span> Huge supply, fragmented entry points.</td>
+              <td data-label="Mobility"><span class="rating-chip strong">Strong</span> Rail-first daily life.</td>
+              <td data-label="Season risk"><span class="rating-chip mixed">Mixed</span> Heat, rain, and peak demand affect comfort.</td>
+              <td data-label="Best for">First-time confidence, meetings, events.</td>
+              <td data-label="Avoid if">You need low monthly housing friction.</td>
             </tr>
             <tr>
-              <td>Osaka</td>
-              <td>Strong</td>
-              <td>Medium to high</td>
-              <td>Good, less obvious</td>
-              <td>2 weeks to 3 months</td>
-              <td>Finding the right work-community loop</td>
+              <td data-label="City"><strong>Osaka</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip strong">Strong</span> Reliable big-city infrastructure.</td>
+              <td data-label="Housing friction"><span class="rating-chip mixed">Medium</span> Easier than Tokyo, still plan ahead.</td>
+              <td data-label="Community access"><span class="rating-chip mixed">Mixed</span> Social, but nomad routes are less explicit.</td>
+              <td data-label="Mobility"><span class="rating-chip strong">Strong</span> Excellent Kansai access.</td>
+              <td data-label="Season risk"><span class="rating-chip mixed">Mixed</span> Summer heat and humidity need planning.</td>
+              <td data-label="Best for">Balanced city base and regional travel.</td>
+              <td data-label="Avoid if">You need a clearly packaged nomad scene.</td>
             </tr>
             <tr>
-              <td>Fukuoka</td>
-              <td>Strong</td>
-              <td>Medium</td>
-              <td>Clearer and friendlier</td>
-              <td>1 month to 3 months</td>
-              <td>Fewer global-scale events than Tokyo</td>
+              <td data-label="City"><strong>Fukuoka</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip strong">Strong</span> Compact city with good daily fallback options.</td>
+              <td data-label="Housing friction"><span class="rating-chip strong">Lower</span> Better odds for month-plus livability.</td>
+              <td data-label="Community access"><span class="rating-chip strong">Strong</span> Clearest official nomad signal.</td>
+              <td data-label="Mobility"><span class="rating-chip strong">Strong</span> Short city loops and airport access.</td>
+              <td data-label="Season risk"><span class="rating-chip mixed">Mixed</span> Storm risk can affect side trips.</td>
+              <td data-label="Best for">Community, livability, compact routines.</td>
+              <td data-label="Avoid if">You need constant global-scale events.</td>
             </tr>
             <tr>
-              <td>Kyoto</td>
-              <td>Good</td>
-              <td>High in peak seasons</td>
-              <td>Interest-based</td>
-              <td>2 weeks to 2 months</td>
-              <td>Tourism pressure and workspace etiquette</td>
+              <td data-label="City"><strong>Kyoto</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip mixed">Good</span> Strong with a planned workspace.</td>
+              <td data-label="Housing friction"><span class="rating-chip watch">High</span> Peak tourism changes availability quickly.</td>
+              <td data-label="Community access"><span class="rating-chip mixed">Interest-led</span> Easier through hobbies and repeat places.</td>
+              <td data-label="Mobility"><span class="rating-chip mixed">Good</span> Walk, bike, bus, and rail with crowd friction.</td>
+              <td data-label="Season risk"><span class="rating-chip watch">High</span> Peak crowds and heat affect work rhythm.</td>
+              <td data-label="Best for">Culture-heavy deep work.</td>
+              <td data-label="Avoid if">You rely on cafe work without backup.</td>
             </tr>
             <tr>
-              <td>Sapporo</td>
-              <td>Good in the city</td>
-              <td>Medium</td>
-              <td>Smaller but workable</td>
-              <td>1 month or seasonal stays</td>
-              <td>Winter logistics and distance</td>
+              <td data-label="City"><strong>Sapporo</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip mixed">Good</span> Reliable in the city, thinner outside it.</td>
+              <td data-label="Housing friction"><span class="rating-chip strong">Medium</span> More space, but seasonal demand shifts.</td>
+              <td data-label="Community access"><span class="rating-chip mixed">Smaller</span> Works best with planned entry points.</td>
+              <td data-label="Mobility"><span class="rating-chip mixed">Seasonal</span> City transit is workable; snow changes plans.</td>
+              <td data-label="Season risk"><span class="rating-chip watch">High</span> Winter logistics can reshape the workday.</td>
+              <td data-label="Best for">Snow, space, nature access.</td>
+              <td data-label="Avoid if">You need fast access to other Japan regions.</td>
             </tr>
             <tr>
-              <td>Okinawa</td>
-              <td>Variable by area</td>
-              <td>Seasonal</td>
-              <td>Smaller, experience-led</td>
-              <td>2 weeks to 2 months</td>
-              <td>Typhoons, transport, and peak pricing</td>
+              <td data-label="City"><strong>Okinawa</strong></td>
+              <td data-label="Work reliability"><span class="rating-chip watch">Variable</span> Depends heavily on exact area and stay.</td>
+              <td data-label="Housing friction"><span class="rating-chip mixed">Seasonal</span> Demand spikes around holidays and peaks.</td>
+              <td data-label="Community access"><span class="rating-chip mixed">Smaller</span> Relationship-led and experience-led.</td>
+              <td data-label="Mobility"><span class="rating-chip watch">Variable</span> Car dependence rises outside central areas.</td>
+              <td data-label="Season risk"><span class="rating-chip watch">High</span> Typhoons and peak pricing need backup plans.</td>
+              <td data-label="Best for">Warm slow living and recovery time.</td>
+              <td data-label="Avoid if">Your calls cannot tolerate local uncertainty.</td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="versus-title">
+      <div class="section-heading">
+        <p class="eyebrow">Compare two</p>
+        <h2 id="versus-title">Test the real tradeoff between two possible bases.</h2>
+      </div>
+      <div class="city-versus" data-city-versus>
+        <div class="versus-controls">
+          <label>
+            <span>First city</span>
+            <select data-compare-a>
+              <option value="tokyo" selected>Tokyo</option>
+              <option value="osaka">Osaka</option>
+              <option value="fukuoka">Fukuoka</option>
+              <option value="kyoto">Kyoto</option>
+              <option value="sapporo">Sapporo</option>
+              <option value="okinawa">Okinawa</option>
+            </select>
+          </label>
+          <label>
+            <span>Second city</span>
+            <select data-compare-b>
+              <option value="tokyo" disabled>Tokyo</option>
+              <option value="osaka">Osaka</option>
+              <option value="fukuoka" selected>Fukuoka</option>
+              <option value="kyoto">Kyoto</option>
+              <option value="sapporo">Sapporo</option>
+              <option value="okinawa">Okinawa</option>
+            </select>
+          </label>
+        </div>
+        <div class="versus-grid" data-city-compare-output>
+          <article class="versus-card">
+            <span class="check-label">Maximum convenience</span>
+            <h3>Tokyo</h3>
+            <p>For high-end convenience, meetings, events, and first-time confidence.</p>
+            <dl>
+              <div><dt>Best for</dt><dd>First-time confidence, meetings, events.</dd></div>
+              <div><dt>Work setup</dt><dd>Deep coworking, cafes, hotels, transit, and international services.</dd></div>
+              <div><dt>First base</dt><dd>Stay near a rail hub with multiple workspace backups.</dd></div>
+              <div><dt>Watch-out</dt><dd>Do not let convenience hide housing cost and neighborhood friction.</dd></div>
+            </dl>
+          </article>
+          <article class="versus-card">
+            <span class="check-label">Community and livability</span>
+            <h3>Fukuoka</h3>
+            <p>For community, livability, and a compact daily loop.</p>
+            <dl>
+              <div><dt>Best for</dt><dd>Community, livability, compact routines.</dd></div>
+              <div><dt>Work setup</dt><dd>Compact city layout, coworking options, airport access, and short local travel times.</dd></div>
+              <div><dt>First base</dt><dd>Choose Hakata or Tenjin for easy first-week logistics.</dd></div>
+              <div><dt>Watch-out</dt><dd>Tokyo still has the deeper global-scale event pool.</dd></div>
+            </dl>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -167,6 +347,12 @@
           </figure>
           <h3>Tokyo</h3>
           <p class="city-tagline">For high-end convenience, meetings, events, and first-time confidence.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>first Japan work stay, client calls, events</dd></div>
+            <div><dt>First base</dt><dd>rail hub with several coworking backups</dd></div>
+            <div><dt>Season note</dt><dd>summer heat and peak demand raise friction</dd></div>
+            <div><dt>Avoid if</dt><dd>low housing friction is the top constraint</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> the deepest choice of coworking, cafes, hotels, transit, and international services.</li>
             <li><strong>Housing reality:</strong> flexible stays exist, but cost and initial friction rise quickly for month-plus stays.</li>
@@ -180,6 +366,12 @@
           </figure>
           <h3>Osaka</h3>
           <p class="city-tagline">For big-city practicality with a slightly more relaxed operating rhythm.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>balanced city life, Kansai side trips</dd></div>
+            <div><dt>First base</dt><dd>near Umeda, Namba, or a direct work route</dd></div>
+            <div><dt>Season note</dt><dd>summer humidity can make indoor days better</dd></div>
+            <div><dt>Avoid if</dt><dd>you need an obvious nomad landing program</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> strong urban infrastructure and easy regional travel across Kansai.</li>
             <li><strong>Housing reality:</strong> often less punishing than central Tokyo, but good monthly options still need early checking.</li>
@@ -193,6 +385,12 @@
           </figure>
           <h3>Fukuoka</h3>
           <p class="city-tagline">For community, livability, and a compact daily loop.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>month-plus stays, community, compact routines</dd></div>
+            <div><dt>First base</dt><dd>Hakata or Tenjin for first-week logistics</dd></div>
+            <div><dt>Season note</dt><dd>watch storm risk for Kyushu or island trips</dd></div>
+            <div><dt>Avoid if</dt><dd>global-scale events matter every week</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> compact city layout, coworking options, food, airport access, and short local travel times.</li>
             <li><strong>Housing reality:</strong> generally more manageable than Tokyo, with better odds of a livable month-plus setup.</li>
@@ -206,6 +404,12 @@
           </figure>
           <h3>Kyoto</h3>
           <p class="city-tagline">For culture-focused slow stays and deep work in a beautiful setting.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>deep work, culture, slower routines</dd></div>
+            <div><dt>First base</dt><dd>choose transit and workspace over postcard views</dd></div>
+            <div><dt>Season note</dt><dd>peak tourism and heat can crowd the workday</dd></div>
+            <div><dt>Avoid if</dt><dd>you expect casual cafe work to carry the stay</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> good for writers, designers, researchers, and slow-travel workers who do not need constant events.</li>
             <li><strong>Housing reality:</strong> peak tourism can pressure prices and availability.</li>
@@ -219,6 +423,12 @@
           </figure>
           <h3>Sapporo / Hokkaido</h3>
           <p class="city-tagline">For seasonal stays, space, winter sports, and nature access with city basics.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>winter, nature access, spacious seasonal work</dd></div>
+            <div><dt>First base</dt><dd>Sapporo before wider Hokkaido exploration</dd></div>
+            <div><dt>Season note</dt><dd>snow is the appeal and the operating risk</dd></div>
+            <div><dt>Avoid if</dt><dd>you need quick access across Japan every week</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> Sapporo gives the most reliable urban base before exploring wider Hokkaido.</li>
             <li><strong>Housing reality:</strong> more breathing room than the largest cities, but seasonal demand can shift the equation.</li>
@@ -232,6 +442,12 @@
           </figure>
           <h3>Okinawa</h3>
           <p class="city-tagline">For warm-weather slow living, recovery time, and nature-led routines.</p>
+          <dl class="city-facts">
+            <div><dt>Best for</dt><dd>warm slow living, recovery time, sea access</dd></div>
+            <div><dt>First base</dt><dd>Naha or a verified coliving/work setup first</dd></div>
+            <div><dt>Season note</dt><dd>typhoon season and holidays change the plan</dd></div>
+            <div><dt>Avoid if</dt><dd>calls, transport, and backup space must be predictable</dd></div>
+          </dl>
           <ul class="plain-list">
             <li><strong>Work setup:</strong> works best when you pre-check Wi-Fi, workspace, and transport around your exact neighborhood.</li>
             <li><strong>Housing reality:</strong> seasonality matters, especially around holidays and high-demand travel periods.</li>
