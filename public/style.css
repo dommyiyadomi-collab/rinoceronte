@@ -1417,13 +1417,12 @@ button:disabled {
 
 @media (prefers-reduced-motion: no-preference) {
   .reveal-ready {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 620ms ease, transform 620ms ease;
+    opacity: 1;
+    transform: translateY(8px);
+    transition: transform 620ms ease;
   }
 
   .reveal-ready.is-visible {
-    opacity: 1;
     transform: translateY(0);
   }
 }

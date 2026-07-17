@@ -25,3 +25,6 @@ jobs:
 
       - name: Check internal links and assets
         run: node scripts/check-internal-links.mjs
+
+      - name: Check render visibility
+        run: node scripts/check-render-visibility.mjs

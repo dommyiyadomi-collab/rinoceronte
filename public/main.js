@@ -300,6 +300,11 @@ document.querySelectorAll("[data-city-versus]").forEach((versus) => {
   updateVersus();
 });
 
+document.querySelectorAll(".city-profile img").forEach((image) => {
+  if (typeof image.decode !== "function") return;
+  image.decode().catch(() => {});
+});
+
 if ("IntersectionObserver" in window && !prefersReducedMotion) {
   const revealTargets = document.querySelectorAll(
     ".section, .guide-section, .about-section, .notice-box, .source-box, .content-box, .card, .check-card, .city-profile, .decision-list article, .city-match-result, .versus-card, .founder-card, .business-card, .about-card, .source-card, .contact-panel",

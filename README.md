@@ -33,10 +33,12 @@ Run the same checks used by GitHub Actions:
 ```powershell
 npx --yes html-validate@latest "public/**/*.html"
 node scripts/check-internal-links.mjs
+node scripts/check-render-visibility.mjs
 node scripts/check-map.mjs
 ```
 
 The internal link check verifies local `href` and `src` references in `public/**/*.html`.
+The render visibility check prevents scroll-triggered reveal styles from hiding article content in full-page renderers.
 The map check verifies that the homepage uses the real Japan map SVG and includes all city pins.
 
 ## X Content Operations
