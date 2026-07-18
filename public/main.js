@@ -302,7 +302,7 @@ document.querySelectorAll("[data-city-versus]").forEach((versus) => {
 
 if ("IntersectionObserver" in window && !prefersReducedMotion) {
   const revealTargets = document.querySelectorAll(
-    ".section, .guide-section, .notice-box, .source-box, .content-box, .card, .check-card, .city-profile, .decision-list article, .city-match-result, .versus-card",
+    ".section, .guide-section, .about-section, .notice-box, .source-box, .content-box, .card, .check-card, .city-profile, .decision-list article, .city-match-result, .versus-card, .founder-card, .business-card, .about-card, .source-card, .contact-panel",
   );
 
   const observer = new IntersectionObserver(
