@@ -93,13 +93,11 @@ textarea:focus-visible {
 }
 
 .brand-mark {
-  width: 1.05rem;
-  height: 1.05rem;
-  border-radius: 50%;
-  background:
-    linear-gradient(135deg, rgba(0, 110, 219, 0.95), rgba(104, 210, 238, 0.9) 52%, rgba(180, 167, 255, 0.78)),
-    #006edb;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.54), 0 8px 18px rgba(0, 110, 219, 0.18);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.55rem;
+  background: #000 url("/assets/dommy-logo.svg") center / cover no-repeat;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
 }
 
 .site-nav {
