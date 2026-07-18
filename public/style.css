@@ -1907,6 +1907,17 @@ button:disabled {
   gap: 1rem;
 }
 
+.trusted-grid {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.trusted-grid li,
+.trusted-grid .source-card {
+  height: 100%;
+}
+
 .about-card,
 .source-card {
   padding: 1.25rem;
