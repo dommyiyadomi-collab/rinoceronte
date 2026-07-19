@@ -2413,10 +2413,12 @@ button:disabled {
 
 .payment-pill-grid {
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  margin-top: 2rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.payment-pill-grid span,
+.payment-pill-grid li,
 .quick-answer-grid article,
 .toc-card,
 .preflight-checklist li,
@@ -2429,7 +2431,7 @@ button:disabled {
   backdrop-filter: blur(16px) saturate(150%);
 }
 
-.payment-pill-grid span {
+.payment-pill-grid li {
   display: flex;
   align-items: center;
   justify-content: center;
