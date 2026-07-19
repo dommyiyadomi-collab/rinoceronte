@@ -326,3 +326,16 @@ if ("IntersectionObserver" in window && !prefersReducedMotion) {
     observer.observe(target);
   });
 }
+
+const scrollProgressBar = document.querySelector("#scroll-progress-bar");
+if (scrollProgressBar) {
+  const updateScrollProgress = () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+    scrollProgressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  };
+
+  updateScrollProgress();
+  document.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+}
