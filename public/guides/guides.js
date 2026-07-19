@@ -1,7 +1,8 @@
 const formatGuideDate = (date) => new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "numeric" }).format(new Date(`${date}T00:00:00Z`));
+const getGuideStatusClass = (status) => `status-${status.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
 const createGuideCard = (guide, featured = false) => `
   <article class="guide-card${featured ? " guide-card-featured" : ""}">
-    <div class="guide-card-meta"><span class="status-badge">${guide.status}</span><span>${guide.category}</span></div>
+    <div class="guide-card-meta"><span class="status-badge ${getGuideStatusClass(guide.status)}">${guide.status}</span><span>${guide.category}</span></div>
     <h3>${guide.title}</h3>
     <p>${guide.description}</p>
     <dl class="guide-meta-list">

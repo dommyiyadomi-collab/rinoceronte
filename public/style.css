@@ -2077,6 +2077,12 @@ button:disabled {
   color: #80570d;
 }
 
+.status-badge.status-published {
+  border-color: rgba(17, 134, 93, 0.28);
+  background: rgba(232, 249, 241, 0.9);
+  color: #12664b;
+}
+
 .featured-guide-card,
 .guide-card-grid {
   min-height: 8rem;
@@ -2183,6 +2189,25 @@ button:disabled {
   margin: 2rem 0;
 }
 
+.article-hero-media {
+  margin: 2rem 0;
+}
+
+.article-hero-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.article-hero-media figcaption {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .article-hero-placeholder div {
   display: grid;
   place-items: center;
@@ -2242,6 +2267,67 @@ button:disabled {
   line-height: 1.2;
 }
 
+.article-content section + section {
+  margin-top: 3rem;
+}
+
+.article-content section > p {
+  color: var(--muted);
+}
+
+.decision-flow,
+.scenario-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.decision-flow {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: flow;
+}
+
+.decision-flow li {
+  position: relative;
+  min-height: 6rem;
+  padding: 1rem 1rem 1rem 4.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(30, 45, 70, 0.07);
+  counter-increment: flow;
+}
+
+.decision-flow li::before {
+  content: counter(flow);
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(0, 110, 219, 0.1);
+  color: var(--blue-dark);
+  font-weight: 760;
+}
+
+.decision-flow strong,
+.decision-flow span {
+  display: block;
+}
+
+.decision-flow span {
+  margin-top: 0.35rem;
+  color: var(--muted);
+}
+
+.scenario-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .notice-box {
   margin: 1.5rem 0;
   padding: 1rem;
@@ -2268,7 +2354,8 @@ button:disabled {
 @media (max-width: 900px) {
   .guide-card-grid,
   .article-meta,
-  .article-layout {
+  .article-layout,
+  .scenario-grid {
     grid-template-columns: 1fr;
   }
 
