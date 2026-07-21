@@ -38,6 +38,7 @@ jobs:
         env:
           GOOGLE_SEARCH_CONSOLE_SITE_URL: ${{ secrets.GOOGLE_SEARCH_CONSOLE_SITE_URL }}
           GOOGLE_ANALYTICS_PROPERTY_ID: ${{ secrets.GOOGLE_ANALYTICS_PROPERTY_ID }}
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
         run: scripts/collect_audit_bundle.sh
 
       - name: Upload audit bundle

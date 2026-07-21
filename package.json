@@ -3,6 +3,8 @@
   "private": true,
   "dependencies": {
     "@google-analytics/data": "^6.1.0",
+    "cheerio": "^1.2.0",
+    "fast-xml-parser": "^5.10.1",
     "google-auth-library": "10.5.0"
   }
 }
