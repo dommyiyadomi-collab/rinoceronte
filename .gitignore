@@ -4,3 +4,7 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Node dependencies and generated audit artifacts
+node_modules/
+out/
