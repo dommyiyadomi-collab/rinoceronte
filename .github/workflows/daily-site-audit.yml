@@ -19,7 +19,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Collect audit bundle
+        env:
+          GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON }}
+          GOOGLE_SEARCH_CONSOLE_SITE_URL: ${{ secrets.GOOGLE_SEARCH_CONSOLE_SITE_URL }}
         run: scripts/collect_audit_bundle.sh
 
       - name: Upload audit bundle
