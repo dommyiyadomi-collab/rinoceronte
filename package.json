@@ -1,0 +1,7 @@
+{
+  "name": "rinoceronte",
+  "private": true,
+  "dependencies": {
+    "@google-analytics/data": "^6.1.0"
+  }
+}

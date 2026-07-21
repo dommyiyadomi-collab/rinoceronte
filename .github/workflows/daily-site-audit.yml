@@ -24,10 +24,15 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install audit dependencies
+        run: npm ci
+
       - name: Collect audit bundle
         env:
           GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON }}
           GOOGLE_SEARCH_CONSOLE_SITE_URL: ${{ secrets.GOOGLE_SEARCH_CONSOLE_SITE_URL }}
+          GOOGLE_ANALYTICS_CREDENTIALS_JSON: ${{ secrets.GOOGLE_ANALYTICS_CREDENTIALS_JSON }}
+          GOOGLE_ANALYTICS_PROPERTY_ID: ${{ secrets.GOOGLE_ANALYTICS_PROPERTY_ID }}
         run: scripts/collect_audit_bundle.sh
 
       - name: Upload audit bundle
