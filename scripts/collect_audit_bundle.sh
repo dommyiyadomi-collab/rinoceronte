@@ -6,6 +6,7 @@ repo_root="$(cd "${script_dir}/.." && pwd)"
 bundle_dir="${repo_root}/out/audit-bundle"
 
 node "${script_dir}/collect-search-console-search-analytics.mjs" "${bundle_dir}"
+node "${script_dir}/collect-search-console-url-inspection.mjs" "${bundle_dir}"
 node "${script_dir}/collect-google-analytics-data.mjs" "${bundle_dir}"
 node "${script_dir}/collect-search-console-sitemaps.mjs" "${bundle_dir}"
 node "${script_dir}/collect-site-crawl.mjs" "${bundle_dir}"
