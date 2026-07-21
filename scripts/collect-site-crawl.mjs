@@ -77,10 +77,12 @@ export async function collectSiteAudit({
   const homeFetch = await fetchTextResource(baseUrlHref, {
     fetchImpl,
     config: crawlConfig,
+    allowedOrigin: baseUrl.origin,
   });
   const robotsFetch = await fetchTextResource(robotsUrl, {
     fetchImpl,
     config: crawlConfig,
+    allowedOrigin: baseUrl.origin,
   });
   const robotsEvidence = buildRobotsEvidence(robotsFetch);
   const sitemapInventory = await collectSitemapInventory({
@@ -144,6 +146,7 @@ export async function collectSiteAudit({
   const internalLinkChecks = await collectInternalLinkChecks({
     pageResults,
     sitemapUrlSet,
+    baseUrl,
     fetchImpl,
     config: crawlConfig,
   });
@@ -272,6 +275,7 @@ async function collectSitemapInventory({
     const fetchResult = await fetchTextResource(sitemapHref, {
       fetchImpl,
       config,
+      allowedOrigin: baseUrl.origin,
     });
     const sourceRecord = {
       ...stripBody(fetchResult),
@@ -634,11 +638,13 @@ async function crawlPage({
   const fetchResult = await fetchTextResource(url, {
     fetchImpl,
     config,
+    allowedOrigin: baseUrl.origin,
   });
   const pageResult = {
     requestedUrl: fetchResult.requestedUrl,
     finalUrl: fetchResult.finalUrl,
     redirectChain: fetchResult.redirectChain,
+    redirectStop: fetchResult.redirectStop,
     status: fetchResult.status,
     ok: fetchResult.ok,
     contentType: fetchResult.contentType,
@@ -788,6 +794,7 @@ export function normalizeInternalLink(rawHref, pageUrl, baseUrl) {
 async function collectInternalLinkChecks({
   pageResults,
   sitemapUrlSet,
+  baseUrl,
   fetchImpl,
   config,
 }) {
@@ -820,39 +827,132 @@ async function collectInternalLinkChecks({
       sourceHrefs: [...link.sourceHrefs].sort(),
     }))
     .sort((a, b) => a.url.localeCompare(b.url));
-  const sitemapTargets = linkTargets
-    .filter((link) => link.inSitemap)
-    .map((link) => ({
-      ...link,
-      checked: false,
-      checkReason: "present in sitemap inventory and crawled as a sitemap URL",
-      method: null,
-      finalUrl: null,
-      redirectChain: [],
-      status: null,
-      ok: null,
-      responseTimeMs: null,
-      contentType: null,
-      contentLength: null,
-      error: null,
-    }));
-  const outsideSitemapTargets = linkTargets.filter((link) => !link.inSitemap);
+  const pageResultLookup = buildPageResultLookup(pageResults);
+  const reusedChecks = [];
+  const networkTargets = [];
+
+  for (const link of linkTargets) {
+    const match = pageResultLookup.find(link.url);
+
+    if (match) {
+      reusedChecks.push(buildReusedInternalLinkCheck(link, match));
+      continue;
+    }
+
+    if (link.inSitemap) {
+      reusedChecks.push({
+        ...link,
+        checked: false,
+        checkSource: "missing_page_result",
+        checkReason:
+          "present in sitemap inventory but no matching sitemap page result was available",
+        method: null,
+        finalUrl: null,
+        redirectChain: [],
+        redirectStop: null,
+        status: null,
+        ok: null,
+        responseTimeMs: null,
+        contentType: null,
+        contentLength: null,
+        matchedPageRequestedUrl: null,
+        matchType: null,
+        error: null,
+      });
+      continue;
+    }
+
+    networkTargets.push(link);
+  }
+
   const outsideChecks = await mapWithConcurrency(
-    outsideSitemapTargets,
+    networkTargets,
     config.linkCheckConcurrency,
-    (link) => checkInternalLinkAvailability({ link, fetchImpl, config }),
+    (link) =>
+      checkInternalLinkAvailability({
+        link,
+        baseUrl,
+        fetchImpl,
+        config,
+      }),
   );
 
-  return [...sitemapTargets, ...outsideChecks].sort((a, b) =>
+  return [...reusedChecks, ...outsideChecks].sort((a, b) =>
     a.url.localeCompare(b.url),
   );
 }
 
-async function checkInternalLinkAvailability({ link, fetchImpl, config }) {
+function buildPageResultLookup(pageResults) {
+  const byRequestedUrl = new Map();
+  const byFinalUrl = new Map();
+
+  for (const pageResult of pageResults) {
+    if (pageResult.requestedUrl && !byRequestedUrl.has(pageResult.requestedUrl)) {
+      byRequestedUrl.set(pageResult.requestedUrl, pageResult);
+    }
+
+    if (pageResult.finalUrl && !byFinalUrl.has(pageResult.finalUrl)) {
+      byFinalUrl.set(pageResult.finalUrl, pageResult);
+    }
+  }
+
+  return {
+    find(url) {
+      const requestedUrlMatch = byRequestedUrl.get(url);
+
+      if (requestedUrlMatch) {
+        return {
+          pageResult: requestedUrlMatch,
+          matchType: "requestedUrl",
+        };
+      }
+
+      const finalUrlMatch = byFinalUrl.get(url);
+
+      if (finalUrlMatch) {
+        return {
+          pageResult: finalUrlMatch,
+          matchType: "finalUrl",
+        };
+      }
+
+      return null;
+    },
+  };
+}
+
+function buildReusedInternalLinkCheck(link, match) {
+  const { pageResult, matchType } = match;
+
+  return {
+    ...link,
+    checked: true,
+    checkSource: "pageResults",
+    checkReason:
+      matchType === "requestedUrl"
+        ? "matched a sitemap page result by requestedUrl"
+        : "matched a sitemap page result by finalUrl",
+    method: "GET",
+    finalUrl: pageResult.finalUrl,
+    redirectChain: pageResult.redirectChain,
+    redirectStop: pageResult.redirectStop,
+    status: pageResult.status,
+    ok: pageResult.ok,
+    responseTimeMs: pageResult.responseTimeMs,
+    contentType: pageResult.contentType,
+    contentLength: pageResult.contentLength,
+    matchedPageRequestedUrl: pageResult.requestedUrl,
+    matchType,
+    error: pageResult.error,
+  };
+}
+
+async function checkInternalLinkAvailability({ link, baseUrl, fetchImpl, config }) {
   const headResult = await fetchTextResource(link.url, {
     fetchImpl,
     config,
     method: "HEAD",
+    allowedOrigin: baseUrl.origin,
   });
   let result = headResult;
   let method = "HEAD";
@@ -863,6 +963,7 @@ async function checkInternalLinkAvailability({ link, fetchImpl, config }) {
       fetchImpl,
       config,
       method: "GET",
+      allowedOrigin: baseUrl.origin,
     });
     method = "GET";
     checkReason = `GET fallback after HEAD ${
@@ -873,15 +974,19 @@ async function checkInternalLinkAvailability({ link, fetchImpl, config }) {
   return {
     ...link,
     checked: true,
+    checkSource: "network",
     checkReason,
     method,
     finalUrl: result.finalUrl,
     redirectChain: result.redirectChain,
+    redirectStop: result.redirectStop,
     status: result.status,
     ok: result.ok,
     responseTimeMs: result.responseTimeMs,
     contentType: result.contentType,
     contentLength: result.contentLength,
+    matchedPageRequestedUrl: null,
+    matchType: null,
     error: result.error,
   };
 }
@@ -917,28 +1022,31 @@ function buildSummaryCounts({
     pagesWithZeroH1: htmlPages.filter((page) => page.h1Count === 0).length,
     pagesWithMultipleH1: htmlPages.filter((page) => page.h1Count > 1).length,
     internalLinksOutsideSitemap: outsideSitemapLinks.length,
-    brokenInternalLinks: outsideSitemapLinks.filter(
-      (link) => link.error || link.ok === false || link.status >= 400,
-    ).length,
+    brokenInternalLinks: internalLinkChecks.filter(isBrokenInternalLink).length,
   };
+}
+
+function isBrokenInternalLink(link) {
+  return Boolean(link.error) || link.status >= 400 || Boolean(link.redirectStop);
 }
 
 async function fetchTextResource(
   requestedUrl,
-  { fetchImpl, config, method = "GET" },
+  { fetchImpl, config, method = "GET", allowedOrigin = null },
 ) {
   const startedAt = Date.now();
 
   try {
-    const { response, finalUrl, redirectChain } = await fetchWithRedirects(
+    const { response, finalUrl, redirectChain, redirectStop } = await fetchWithRedirects(
       requestedUrl,
       {
         fetchImpl,
         config,
         method,
+        allowedOrigin,
       },
     );
-    const body = method === "HEAD"
+    const body = method === "HEAD" || redirectStop
       ? { text: "", bytes: 0, truncated: false }
       : await readResponseBody(response, config.maxBodyBytes);
 
@@ -946,6 +1054,7 @@ async function fetchTextResource(
       requestedUrl,
       finalUrl,
       redirectChain,
+      redirectStop,
       status: response.status,
       ok: response.ok,
       contentType: response.headers.get("content-type"),
@@ -961,6 +1070,7 @@ async function fetchTextResource(
       requestedUrl,
       finalUrl: null,
       redirectChain: [],
+      redirectStop: null,
       status: null,
       ok: false,
       contentType: null,
@@ -974,11 +1084,18 @@ async function fetchTextResource(
   }
 }
 
-async function fetchWithRedirects(requestedUrl, { fetchImpl, config, method }) {
+async function fetchWithRedirects(
+  requestedUrl,
+  { fetchImpl, config, method, allowedOrigin },
+) {
   let currentUrl = requestedUrl;
   const redirectChain = [];
 
   for (let redirectCount = 0; redirectCount <= config.maxRedirects; redirectCount += 1) {
+    if (allowedOrigin && new URL(currentUrl).origin !== allowedOrigin) {
+      throw new Error(`Refusing to request out-of-origin URL: ${currentUrl}`);
+    }
+
     const response = await fetchImpl(currentUrl, {
       method,
       headers: {
@@ -997,6 +1114,7 @@ async function fetchWithRedirects(requestedUrl, { fetchImpl, config, method }) {
         response,
         finalUrl: response.url || currentUrl,
         redirectChain,
+        redirectStop: null,
       };
     }
 
@@ -1007,17 +1125,36 @@ async function fetchWithRedirects(requestedUrl, { fetchImpl, config, method }) {
         response,
         finalUrl: response.url || currentUrl,
         redirectChain,
+        redirectStop: null,
       };
     }
 
-    const nextUrl = new URL(location, currentUrl).href;
+    const nextUrl = new URL(location, currentUrl);
+    const nextUrlHref = nextUrl.href;
+    const isOutOfOrigin = allowedOrigin && nextUrl.origin !== allowedOrigin;
     redirectChain.push({
       fromUrl: currentUrl,
       status: response.status,
       location,
-      toUrl: nextUrl,
+      toUrl: nextUrlHref,
+      followed: !isOutOfOrigin,
+      stopReason: isOutOfOrigin ? "out_of_origin" : null,
+      blockedDestinationUrl: isOutOfOrigin ? nextUrlHref : null,
     });
-    currentUrl = nextUrl;
+
+    if (isOutOfOrigin) {
+      return {
+        response,
+        finalUrl: response.url || currentUrl,
+        redirectChain,
+        redirectStop: {
+          reason: "out_of_origin",
+          destinationUrl: nextUrlHref,
+        },
+      };
+    }
+
+    currentUrl = nextUrlHref;
   }
 
   throw new Error(

@@ -23,6 +23,10 @@ bundle structures are preserved.
   but they do not recursively expand the crawl.
 - Internal link availability checks use `HEAD` where supported, with `GET`
   fallback when `HEAD` is rejected or unsupported.
+- Redirects are followed only while the next `Location` URL remains inside the
+  configured `SITE_BASE_URL` origin. If a redirect would leave that origin, the
+  collector records `redirectStop.reason=out_of_origin` and the external
+  destination URL without requesting the external destination.
 - JavaScript is not executed.
 - Forms are not submitted.
 - Authentication is not attempted.
@@ -31,6 +35,21 @@ bundle structures are preserved.
 This evidence does not prove Google indexability. The robots parser is
 conservative and does not emulate a search-engine crawler. URL Inspection is a
 separate later phase and is not part of this collector.
+
+## Internal Link Check Matching
+
+Internal link targets are normalized and deduplicated before checks are recorded.
+For links that already correspond to a crawled sitemap page, the collector does
+not send another network request. It reuses the matching `pageResults` record in
+this deterministic order:
+
+1. Exact match on the sitemap page `requestedUrl`.
+2. Exact match on the sitemap page `finalUrl`.
+
+The sitemap URL inventory is sorted before crawling, and the first matching
+`pageResults` entry wins if multiple sitemap URLs resolve to the same final URL.
+Each reused check records `checkSource=pageResults`, `matchType`, and
+`matchedPageRequestedUrl`.
 
 ## GitHub Actions Configuration
 

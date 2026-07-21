@@ -77,6 +77,8 @@ test("extracts HTML metadata and normalizes only internal HTTP links", async () 
       "https://example.com/",
       "https://example.com/broken.html",
       "https://example.com/contact.html",
+      "https://example.com/external-redirect.html",
+      "https://example.com/missing-sitemap.html",
       "https://example.com/search?a=1&b=2",
     ],
   );
@@ -106,6 +108,7 @@ test("collects sitemap index URLs, deduplicates them, and checks broken internal
     const { siteInventory, siteCrawl } = await collectSiteAudit({
       outputDir,
       siteBaseUrl: server.baseUrl,
+      fetchImpl: server.fetchImpl,
       now: () => new Date("2026-07-21T00:00:00.000Z"),
       config: {
         requestTimeoutMs: 5_000,
@@ -115,7 +118,7 @@ test("collects sitemap index URLs, deduplicates them, and checks broken internal
     });
 
     assert.equal(siteInventory.baseUrl, server.baseUrl);
-    assert.equal(siteInventory.counts.normalizedUrls, 3);
+    assert.equal(siteInventory.counts.normalizedUrls, 5);
     assert.equal(siteInventory.counts.duplicateUrls, 1);
     assert.equal(siteInventory.counts.excludedExternalUrls, 1);
     assert.deepEqual(
@@ -124,21 +127,67 @@ test("collects sitemap index URLs, deduplicates them, and checks broken internal
         `${server.baseUrl}`,
         `${server.baseUrl}about.html`,
         `${server.baseUrl}contact.html`,
+        `${server.baseUrl}external-redirect.html`,
+        `${server.baseUrl}missing-sitemap.html`,
       ],
     );
 
-    assert.equal(siteCrawl.summaryCounts.sitemapUrls, 3);
+    assert.equal(siteCrawl.summaryCounts.sitemapUrls, 5);
     assert.equal(siteCrawl.summaryCounts.successfulPages, 3);
     assert.equal(siteCrawl.summaryCounts.internalLinksOutsideSitemap, 2);
-    assert.equal(siteCrawl.summaryCounts.brokenInternalLinks, 1);
+    assert.equal(siteCrawl.summaryCounts.brokenInternalLinks, 3);
 
-    const brokenLink = siteCrawl.internalLinkChecks.find((link) =>
+    const successfulSitemapLink = siteCrawl.internalLinkChecks.find((link) =>
+      link.url.endsWith("/contact.html"),
+    );
+    assert.equal(successfulSitemapLink.inSitemap, true);
+    assert.equal(successfulSitemapLink.checked, true);
+    assert.equal(successfulSitemapLink.checkSource, "pageResults");
+    assert.equal(successfulSitemapLink.matchType, "requestedUrl");
+    assert.equal(successfulSitemapLink.status, 200);
+    assert.equal(successfulSitemapLink.ok, true);
+
+    const brokenSitemapLink = siteCrawl.internalLinkChecks.find((link) =>
+      link.url.endsWith("/missing-sitemap.html"),
+    );
+    assert.equal(brokenSitemapLink.inSitemap, true);
+    assert.equal(brokenSitemapLink.checked, true);
+    assert.equal(brokenSitemapLink.checkSource, "pageResults");
+    assert.equal(brokenSitemapLink.status, 404);
+    assert.equal(brokenSitemapLink.ok, false);
+
+    const brokenOutsideSitemapLink = siteCrawl.internalLinkChecks.find((link) =>
       link.url.endsWith("/broken.html"),
     );
-    assert.equal(brokenLink.checked, true);
-    assert.equal(brokenLink.method, "HEAD");
-    assert.equal(brokenLink.status, 404);
-    assert.equal(brokenLink.ok, false);
+    assert.equal(brokenOutsideSitemapLink.inSitemap, false);
+    assert.equal(brokenOutsideSitemapLink.checked, true);
+    assert.equal(brokenOutsideSitemapLink.checkSource, "network");
+    assert.equal(brokenOutsideSitemapLink.method, "HEAD");
+    assert.equal(brokenOutsideSitemapLink.status, 404);
+    assert.equal(brokenOutsideSitemapLink.ok, false);
+
+    const externalRedirectPage = siteCrawl.pageResults.find((page) =>
+      page.requestedUrl.endsWith("/external-redirect.html"),
+    );
+    assert.equal(externalRedirectPage.status, 302);
+    assert.equal(externalRedirectPage.ok, false);
+    assert.deepEqual(externalRedirectPage.redirectStop, {
+      reason: "out_of_origin",
+      destinationUrl: "https://external.example/landing.html",
+    });
+    assert.equal(externalRedirectPage.redirectChain.length, 1);
+    assert.equal(externalRedirectPage.redirectChain[0].followed, false);
+    assert.equal(
+      externalRedirectPage.redirectChain[0].blockedDestinationUrl,
+      "https://external.example/landing.html",
+    );
+    assert.equal(externalRedirectPage.fetchedBodyBytes, 0);
+    assert.equal(
+      server.fetchRequests.some((request) =>
+        request.url.startsWith("https://external.example/"),
+      ),
+      false,
+    );
 
     const auditBundle = JSON.parse(
       await readFile(path.join(outputDir, "audit-bundle.json"), "utf8"),
@@ -175,6 +224,7 @@ async function readFixture(name, baseUrl) {
 
 async function startFixtureServer() {
   const requests = [];
+  const fetchRequests = [];
   const pageHtml = await readFixture("page.html", "http://127.0.0.1");
   const server = createServer(async (request, response) => {
     requests.push({
@@ -230,6 +280,24 @@ async function startFixtureServer() {
       return;
     }
 
+    if (request.url === "/external-redirect.html") {
+      response.statusCode = 302;
+      response.setHeader("location", "https://external.example/landing.html");
+      response.setHeader("content-length", "0");
+      response.end();
+      return;
+    }
+
+    if (request.url === "/missing-sitemap.html") {
+      sendFixtureResponse({
+        request,
+        response,
+        status: 404,
+        body: "Not found",
+      });
+      return;
+    }
+
     if (request.url === "/search?a=1&b=2") {
       sendFixtureResponse({
         request,
@@ -262,10 +330,26 @@ async function startFixtureServer() {
   });
 
   const address = server.address();
+  const baseUrl = `http://127.0.0.1:${address.port}/`;
+  const baseOrigin = new URL(baseUrl).origin;
 
   return {
-    baseUrl: `http://127.0.0.1:${address.port}/`,
+    baseUrl,
     requests,
+    fetchRequests,
+    fetchImpl: async (url, init) => {
+      const requestUrl = typeof url === "string" ? url : url.url;
+      fetchRequests.push({
+        method: init?.method ?? "GET",
+        url: requestUrl,
+      });
+
+      if (new URL(requestUrl).origin !== baseOrigin) {
+        throw new Error(`External fixture request attempted: ${requestUrl}`);
+      }
+
+      return fetch(url, init);
+    },
     close: () =>
       new Promise((resolve, reject) => {
         server.close((error) => (error ? reject(error) : resolve()));
