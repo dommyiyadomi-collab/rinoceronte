@@ -8,3 +8,4 @@
 # Node dependencies and generated audit artifacts
 node_modules/
 out/
+gha-creds-*.json
