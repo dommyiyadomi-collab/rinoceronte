@@ -2,11 +2,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const REQUIRED_ENV_VARS = [
-  "GOOGLE_ANALYTICS_CREDENTIALS_JSON",
-  "GOOGLE_ANALYTICS_PROPERTY_ID",
-];
-const REQUIRED_CREDENTIAL_FIELDS = ["type", "client_email", "private_key"];
+const REQUIRED_ENV_VARS = ["GOOGLE_ANALYTICS_PROPERTY_ID"];
 const GA_REPORTS = [
   {
     name: "summary",
@@ -82,18 +78,9 @@ async function main() {
   }
 
   const env = readEnvironment();
-  const credentials = parseServiceAccountCredentials(
-    env.GOOGLE_ANALYTICS_CREDENTIALS_JSON,
-  );
   const propertyId = normalizePropertyId(env.GOOGLE_ANALYTICS_PROPERTY_ID);
   const BetaAnalyticsDataClient = await loadAnalyticsDataClient();
-  const client = new BetaAnalyticsDataClient({
-    credentials: {
-      client_email: credentials.client_email,
-      private_key: credentials.private_key,
-    },
-    projectId: credentials.project_id,
-  });
+  const client = new BetaAnalyticsDataClient();
   const dateRange = defaultDateRange();
   const analyticsData = await collectGoogleAnalyticsReports({
     client,
@@ -136,47 +123,15 @@ function readEnvironment() {
         "Missing required environment variable(s):",
         ...missingEnvVars.map((envVar) => `  - ${envVar}`),
         "",
-        "Add the missing values as GitHub Secrets before collecting the audit bundle.",
-        "See docs/google-analytics-auth.md for the required secret names.",
+        "Set the missing values before collecting the audit bundle.",
+        "See docs/google-analytics-auth.md for the required configuration.",
       ].join("\n"),
     );
   }
 
   return {
-    GOOGLE_ANALYTICS_CREDENTIALS_JSON:
-      process.env.GOOGLE_ANALYTICS_CREDENTIALS_JSON,
     GOOGLE_ANALYTICS_PROPERTY_ID: process.env.GOOGLE_ANALYTICS_PROPERTY_ID,
   };
-}
-
-function parseServiceAccountCredentials(rawCredentials) {
-  let credentials;
-
-  try {
-    credentials = JSON.parse(rawCredentials);
-  } catch {
-    throw new CollectionError(
-      "GOOGLE_ANALYTICS_CREDENTIALS_JSON must be valid JSON.",
-    );
-  }
-
-  const missingFields = REQUIRED_CREDENTIAL_FIELDS.filter(
-    (field) => !credentials[field],
-  );
-
-  if (missingFields.length > 0) {
-    throw new CollectionError(
-      `GOOGLE_ANALYTICS_CREDENTIALS_JSON is missing required service account field(s): ${missingFields.join(", ")}.`,
-    );
-  }
-
-  if (credentials.type !== "service_account") {
-    throw new CollectionError(
-      "GOOGLE_ANALYTICS_CREDENTIALS_JSON must contain a service_account credential.",
-    );
-  }
-
-  return credentials;
 }
 
 function normalizePropertyId(rawPropertyId) {

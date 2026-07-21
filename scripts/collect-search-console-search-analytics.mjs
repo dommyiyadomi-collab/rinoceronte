@@ -1,16 +1,10 @@
 #!/usr/bin/env node
-import { createSign } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const REQUIRED_ENV_VARS = [
-  "GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON",
-  "GOOGLE_SEARCH_CONSOLE_SITE_URL",
-];
-const REQUIRED_CREDENTIAL_FIELDS = ["type", "client_email", "private_key"];
+const REQUIRED_ENV_VARS = ["GOOGLE_SEARCH_CONSOLE_SITE_URL"];
 const SEARCH_CONSOLE_SCOPE =
   "https://www.googleapis.com/auth/webmasters.readonly";
-const TOKEN_URI = "https://oauth2.googleapis.com/token";
 const SEARCH_ANALYTICS_ROW_LIMIT = 25_000;
 const SEARCH_ANALYTICS_REPORTS = [
   { name: "summary", dimensions: [] },
@@ -34,12 +28,9 @@ async function main() {
   }
 
   const env = readEnvironment();
-  const credentials = parseServiceAccountCredentials(
-    env.GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON,
-  );
   const siteUrl = normalizeSiteUrl(env.GOOGLE_SEARCH_CONSOLE_SITE_URL);
   const dateRange = defaultDateRange();
-  const accessToken = await fetchAccessToken(credentials);
+  const accessToken = await fetchAccessToken();
   const searchAnalytics = await collectSearchAnalytics({
     accessToken,
     dateRange,
@@ -84,48 +75,16 @@ function readEnvironment() {
         "Missing required environment variable(s):",
         ...missingEnvVars.map((envVar) => `  - ${envVar}`),
         "",
-        "Add the missing values as GitHub Secrets before collecting the audit bundle.",
-        "See docs/search-console-auth.md for the required secret names.",
+        "Set the missing values before collecting the audit bundle.",
+        "See docs/search-console-auth.md for the required configuration.",
       ].join("\n"),
     );
   }
 
   return {
-    GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON:
-      process.env.GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON,
     GOOGLE_SEARCH_CONSOLE_SITE_URL:
       process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL,
   };
-}
-
-function parseServiceAccountCredentials(rawCredentials) {
-  let credentials;
-
-  try {
-    credentials = JSON.parse(rawCredentials);
-  } catch {
-    throw new CollectionError(
-      "GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON must be valid JSON.",
-    );
-  }
-
-  const missingFields = REQUIRED_CREDENTIAL_FIELDS.filter(
-    (field) => !credentials[field],
-  );
-
-  if (missingFields.length > 0) {
-    throw new CollectionError(
-      `GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON is missing required service account field(s): ${missingFields.join(", ")}.`,
-    );
-  }
-
-  if (credentials.type !== "service_account") {
-    throw new CollectionError(
-      "GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON must contain a service_account credential.",
-    );
-  }
-
-  return credentials;
 }
 
 function normalizeSiteUrl(rawSiteUrl) {
@@ -164,86 +123,57 @@ function formatDate(date) {
   return date.toISOString().slice(0, 10);
 }
 
-async function fetchAccessToken(credentials) {
-  const tokenUri = credentials.token_uri || TOKEN_URI;
-  const assertion = createServiceAccountJwt(credentials, tokenUri);
-  const response = await fetch(tokenUri, {
-    method: "POST",
-    headers: {
-      "content-type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion,
-    }),
-    signal: AbortSignal.timeout(30_000),
+async function fetchAccessToken() {
+  const GoogleAuth = await loadGoogleAuth();
+  const auth = new GoogleAuth({
+    scopes: [SEARCH_CONSOLE_SCOPE],
   });
-  const body = await readJsonResponse(response);
 
-  if (!response.ok) {
+  let accessToken;
+
+  try {
+    accessToken = await auth.getAccessToken();
+  } catch (error) {
     throw new CollectionError(
       [
-        `Google OAuth access token request failed (HTTP ${response.status}).`,
-        describeGoogleError(body),
-        "Confirm GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON contains a valid service account key with the Search Console readonly scope available.",
+        "Google Application Default Credentials could not provide a Search Console access token.",
+        error instanceof Error ? error.message : String(error),
+        "Confirm the GitHub Actions workflow authenticated with Workload Identity Federation and the service account has the Search Console readonly scope available.",
       ]
         .filter(Boolean)
         .join("\n"),
     );
   }
 
-  if (!body.access_token) {
+  if (!accessToken) {
     throw new CollectionError(
-      "Google OAuth access token response did not include access_token.",
+      "Google Application Default Credentials did not return an access token.",
     );
   }
 
-  return body.access_token;
+  return accessToken;
 }
 
-function createServiceAccountJwt(credentials, tokenUri) {
-  const issuedAt = Math.floor(Date.now() / 1000);
-  const header = {
-    alg: "RS256",
-    typ: "JWT",
-  };
-
-  if (credentials.private_key_id) {
-    header.kid = credentials.private_key_id;
-  }
-
-  const claimSet = {
-    iss: credentials.client_email,
-    scope: SEARCH_CONSOLE_SCOPE,
-    aud: tokenUri,
-    exp: issuedAt + 3600,
-    iat: issuedAt,
-  };
-  const unsignedJwt = `${base64urlJson(header)}.${base64urlJson(claimSet)}`;
-
+async function loadGoogleAuth() {
   try {
-    const signature = createSign("RSA-SHA256")
-      .update(unsignedJwt)
-      .sign(credentials.private_key);
+    const googleAuthLibrary = await import("google-auth-library");
+    const GoogleAuth =
+      googleAuthLibrary.GoogleAuth ?? googleAuthLibrary.default?.GoogleAuth;
 
-    return `${unsignedJwt}.${base64url(signature)}`;
-  } catch {
+    if (!GoogleAuth) {
+      throw new Error("GoogleAuth export was not found.");
+    }
+
+    return GoogleAuth;
+  } catch (error) {
     throw new CollectionError(
-      "GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON private_key could not sign the OAuth JWT. Confirm the full service account private_key is present.",
+      [
+        "The official google-auth-library package is not installed or could not be loaded.",
+        "Run `npm ci` before collecting the audit bundle.",
+        error instanceof Error ? error.message : String(error),
+      ].join("\n"),
     );
   }
-}
-
-function base64urlJson(value) {
-  return base64url(Buffer.from(JSON.stringify(value), "utf8"));
-}
-
-function base64url(buffer) {
-  return buffer
-    .toString("base64")
-    .replaceAll("+", "-")
-    .replaceAll("/", "_")
-    .replaceAll("=", "");
 }
 
 async function collectSearchAnalytics({ accessToken, dateRange, siteUrl }) {
