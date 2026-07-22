@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
   actions: read
+  pull-requests: read
+  checks: read
+  statuses: read
   id-token: write
 
 jobs:
@@ -40,6 +43,8 @@ jobs:
           GOOGLE_SEARCH_CONSOLE_URL_INSPECTION_MAX_TARGETS: ${{ vars.GOOGLE_SEARCH_CONSOLE_URL_INSPECTION_MAX_TARGETS }}
           GOOGLE_SEARCH_CONSOLE_URL_INSPECTION_LANGUAGE_CODE: ${{ vars.GOOGLE_SEARCH_CONSOLE_URL_INSPECTION_LANGUAGE_CODE }}
           GOOGLE_ANALYTICS_PROPERTY_ID: ${{ secrets.GOOGLE_ANALYTICS_PROPERTY_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY_CI_METADATA_MAX_WORKFLOW_RUNS: ${{ vars.GITHUB_REPOSITORY_CI_METADATA_MAX_WORKFLOW_RUNS }}
           SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
         run: scripts/collect_audit_bundle.sh
 
