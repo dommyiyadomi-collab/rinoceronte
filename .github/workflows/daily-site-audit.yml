@@ -54,3 +54,45 @@ jobs:
           name: audit-bundle
           path: out/audit-bundle/
           if-no-files-found: error
+
+  generate-ranked-proposals:
+    name: Generate ranked proposals
+    needs: collect-audit-bundle
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download audit bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: audit-bundle
+          path: out/audit-bundle
+
+      - name: Generate ranked proposals
+        env:
+          OPENAI_ACCESS_TOKEN: ${{ secrets.OPENAI_ACCESS_TOKEN }}
+          OPENAI_AUDIT_PROPOSAL_MODEL: ${{ vars.OPENAI_AUDIT_PROPOSAL_MODEL }}
+          OPENAI_AUDIT_PROPOSAL_POLL_INTERVAL_MS: ${{ vars.OPENAI_AUDIT_PROPOSAL_POLL_INTERVAL_MS }}
+          OPENAI_AUDIT_PROPOSAL_TIMEOUT_MS: ${{ vars.OPENAI_AUDIT_PROPOSAL_TIMEOUT_MS }}
+        run: node scripts/generate-ranked-proposals.mjs
+
+      - name: Upload ranked proposals
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ranked-proposals
+          path: |
+            out/audit-bundle/audit-bundle.json
+            out/audit-bundle/ranked-proposals.json
+            out/audit-bundle/openai-proposal-response-metadata.json
+          if-no-files-found: error
