@@ -53,12 +53,10 @@ jobs:
       - name: Record human decision
         env:
           SOURCE_RUN_ID: ${{ inputs.source_run_id }}
-        run: >-
-          node scripts/record-proposal-decision.mjs
-          out/source-audit/ranked-proposals.json
-          "${{ inputs.proposal_id }}"
-          "${{ inputs.decision }}"
-          "${{ inputs.decision_reason }}"
+          PROPOSAL_ID: ${{ inputs.proposal_id }}
+          DECISION: ${{ inputs.decision }}
+          DECISION_REASON: ${{ inputs.decision_reason }}
+        run: node scripts/record-proposal-decision.mjs out/source-audit/ranked-proposals.json
 
       - name: Upload approval audit record
         uses: actions/upload-artifact@v4
@@ -69,15 +67,19 @@ jobs:
           retention-days: 90
 
       - name: Approval boundary summary
+        env:
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          PROPOSAL_ID: ${{ inputs.proposal_id }}
+          DECISION: ${{ inputs.decision }}
         run: |
           {
             echo "## Proposal decision"
-            echo "- Source audit run: ${{ inputs.source_run_id }}"
-            echo "- Proposal: ${{ inputs.proposal_id }}"
-            echo "- Decision: ${{ inputs.decision }}"
-            echo "- Actor: ${{ github.actor }}"
+            echo "- Source audit run: $SOURCE_RUN_ID"
+            echo "- Proposal: $PROPOSAL_ID"
+            echo "- Decision: $DECISION"
+            echo "- Actor: $GITHUB_ACTOR"
             echo
-            if [ "${{ inputs.decision }}" = "approve" ]; then
+            if [ "$DECISION" = "approve" ]; then
               echo "An approved-proposal.json artifact was created."
               echo "No implementation workflow was dispatched by this workflow."
             else

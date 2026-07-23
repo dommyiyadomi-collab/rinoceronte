@@ -1,40 +1,87 @@
 #!/usr/bin/env node
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const ALLOWED_DECISIONS = new Set(["approve", "reject", "defer"]);
+const REQUIRED_ENV_VARS = [
+  "SOURCE_RUN_ID",
+  "PROPOSAL_ID",
+  "DECISION",
+  "GITHUB_ACTOR",
+];
+const USAGE =
+  "Usage: node scripts/record-proposal-decision.mjs <ranked-proposals.json>; provide SOURCE_RUN_ID, PROPOSAL_ID, DECISION, and GITHUB_ACTOR via environment. DECISION_REASON is optional.";
 
-function fail(message) {
-  console.error(message);
-  process.exitCode = 1;
+export class ProposalDecisionError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ProposalDecisionError";
+  }
 }
 
-async function main() {
-  const [rankedProposalsPath, proposalId, decision, reason = ""] = process.argv.slice(2);
+function requireEnv(env, name) {
+  const value = env[name];
 
-  if (!rankedProposalsPath || !proposalId || !decision) {
-    fail(
-      "Usage: node scripts/record-proposal-decision.mjs <ranked-proposals.json> <proposal_id> <approve|reject|defer> [reason]",
+  if (value === undefined || String(value).trim() === "") {
+    throw new ProposalDecisionError(
+      `Missing required environment variable: ${name}.`,
     );
-    return;
   }
+
+  return value;
+}
+
+function readDecisionEnv(env) {
+  for (const name of REQUIRED_ENV_VARS) {
+    requireEnv(env, name);
+  }
+
+  const sourceRunId = env.SOURCE_RUN_ID;
+  const proposalId = env.PROPOSAL_ID;
+  const decision = env.DECISION;
 
   if (!ALLOWED_DECISIONS.has(decision)) {
-    fail(`Invalid decision: ${decision}. Expected approve, reject, or defer.`);
-    return;
+    throw new ProposalDecisionError(
+      `Invalid decision: ${decision}. Expected approve, reject, or defer.`,
+    );
   }
+
+  return {
+    sourceRunId,
+    proposalId,
+    decision,
+    reason: env.DECISION_REASON ?? "",
+    actor: env.GITHUB_ACTOR,
+  };
+}
+
+export async function recordProposalDecision({
+  rankedProposalsPath,
+  env = process.env,
+  now = () => new Date(),
+  outputDir = path.resolve("out", "proposal-decision"),
+} = {}) {
+  if (!rankedProposalsPath) {
+    throw new ProposalDecisionError(USAGE);
+  }
+
+  const { sourceRunId, proposalId, decision, reason, actor } =
+    readDecisionEnv(env);
 
   let ranked;
   try {
     ranked = JSON.parse(await readFile(rankedProposalsPath, "utf8"));
   } catch (error) {
-    fail(`Could not read valid JSON from ${rankedProposalsPath}: ${error.message}`);
-    return;
+    throw new ProposalDecisionError(
+      `Could not read valid JSON from ${rankedProposalsPath}: ${error.message}`,
+    );
   }
 
   if (!ranked || !Array.isArray(ranked.proposals)) {
-    fail("ranked-proposals.json must contain a proposals array.");
-    return;
+    throw new ProposalDecisionError(
+      "ranked-proposals.json must contain a proposals array.",
+    );
   }
 
   const proposal = ranked.proposals.find(
@@ -42,22 +89,18 @@ async function main() {
   );
 
   if (!proposal) {
-    fail(`Proposal ${proposalId} was not found in ranked-proposals.json.`);
-    return;
+    throw new ProposalDecisionError(
+      `Proposal ${proposalId} was not found in ranked-proposals.json.`,
+    );
   }
 
-  const outputDir = path.resolve("out", "proposal-decision");
   await mkdir(outputDir, { recursive: true });
-
-  const recordedAt = new Date().toISOString();
-  const actor = process.env.GITHUB_ACTOR || "unknown";
-  const sourceRunId = process.env.SOURCE_RUN_ID || null;
 
   const decisionRecord = {
     proposal_id: proposalId,
     decision,
     decided_by: actor,
-    decided_at: recordedAt,
+    decided_at: now().toISOString(),
     decision_reason: reason,
     source_run_id: sourceRunId,
   };
@@ -68,6 +111,9 @@ async function main() {
     "utf8",
   );
 
+  const approvedProposalPath = path.join(outputDir, "approved-proposal.json");
+  await rm(approvedProposalPath, { force: true });
+
   if (decision === "approve") {
     const approvedProposal = {
       ...decisionRecord,
@@ -75,15 +121,40 @@ async function main() {
     };
 
     await writeFile(
-      path.join(outputDir, "approved-proposal.json"),
+      approvedProposalPath,
       `${JSON.stringify(approvedProposal, null, 2)}\n`,
       "utf8",
     );
   }
 
+  return {
+    decisionRecord,
+    approved: decision === "approve",
+  };
+}
+
+export async function main({ argv = process.argv, env = process.env } = {}) {
+  const args = argv.slice(2);
+
+  if (args.length !== 1) {
+    throw new ProposalDecisionError(USAGE);
+  }
+
+  const { decisionRecord } = await recordProposalDecision({
+    rankedProposalsPath: args[0],
+    env,
+  });
+
   console.log(
-    `Recorded ${decision} decision for ${proposalId} by ${actor}.`,
+    `Recorded ${decisionRecord.decision} decision for ${decisionRecord.proposal_id} by ${decisionRecord.decided_by}.`,
   );
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  try {
+    await main();
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
+}

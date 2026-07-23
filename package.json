@@ -1,6 +1,9 @@
 {
   "name": "rinoceronte",
   "private": true,
+  "scripts": {
+    "test": "node --test \"scripts/*.test.mjs\""
+  },
   "dependencies": {
     "@google-analytics/data": "^6.1.0",
     "cheerio": "^1.2.0",
