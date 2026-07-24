@@ -1,0 +1,172 @@
+name: Codex implementation
+
+on:
+  workflow_dispatch:
+    inputs:
+      proposal_id:
+        description: "Exact approved proposal_id to implement"
+        required: true
+        type: string
+      approval_run_id:
+        description: "Proposal approval workflow run ID containing the proposal-decision artifact"
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  implement-approved-proposal:
+    name: Implement approved proposal
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download approval artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: proposal-decision
+          path: out/approval-artifact
+          run-id: ${{ inputs.approval_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Validate approved proposal and build Codex prompt
+        id: prepare
+        env:
+          PROPOSAL_ID: ${{ inputs.proposal_id }}
+          APPROVAL_RUN_ID: ${{ inputs.approval_run_id }}
+          IMPLEMENTATION_RUN_ID: ${{ github.run_id }}
+        run: node scripts/prepare-codex-implementation.mjs out/approval-artifact/approved-proposal.json
+
+      - name: Upload implementation prompt audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-implementation-prompt-${{ github.run_id }}
+          path: |
+            out/codex-implementation/validated-approved-proposal.json
+            out/codex-implementation/implementation-prompt.md
+            out/codex-implementation/metadata.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Create implementation branch
+        env:
+          BRANCH_NAME: ${{ steps.prepare.outputs.branch_name }}
+        run: git switch -c "$BRANCH_NAME"
+
+      - name: Run Codex
+        id: run_codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_ACCESS_TOKEN }}
+          prompt-file: out/codex-implementation/implementation-prompt.md
+          sandbox: workspace-write
+          safety-strategy: drop-sudo
+          output-file: out/codex-implementation/codex-output.md
+
+      - name: Upload Codex output audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-implementation-output-${{ github.run_id }}
+          path: |
+            out/codex-implementation/codex-output.md
+            out/codex-implementation/draft-pr-body.md
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate HTML
+        run: npx --yes html-validate@latest "public/**/*.html"
+
+      - name: Check internal links and assets
+        run: node scripts/check-internal-links.mjs
+
+      - name: Check render visibility
+        run: node scripts/check-render-visibility.mjs
+
+      - name: Append validation results to Draft PR body
+        run: |
+          {
+            echo
+            echo "## Workflow Validation"
+            echo
+            echo "- \`npm ci\`: passed"
+            echo "- \`npm test\`: passed"
+            echo "- \`npx --yes html-validate@latest \"public/**/*.html\"\`: passed"
+            echo "- \`node scripts/check-internal-links.mjs\`: passed"
+            echo "- \`node scripts/check-render-visibility.mjs\`: passed"
+          } >> out/codex-implementation/draft-pr-body.md
+
+      - name: Stop if Codex produced no repository changes
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "::error::Codex completed without repository changes. No implementation PR will be created."
+            exit 1
+          fi
+
+      - name: Commit approved implementation
+        env:
+          PROPOSAL_ID: ${{ steps.prepare.outputs.proposal_id }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git add --all -- .
+          git diff --cached --stat
+          git commit -m "Implement approved proposal $PROPOSAL_ID"
+
+      - name: Push implementation branch
+        env:
+          BRANCH_NAME: ${{ steps.prepare.outputs.branch_name }}
+        run: git push --set-upstream origin "$BRANCH_NAME"
+
+      - name: Create Draft Pull Request
+        uses: actions/github-script@v7
+        env:
+          BRANCH_NAME: ${{ steps.prepare.outputs.branch_name }}
+          PROPOSAL_ID: ${{ steps.prepare.outputs.proposal_id }}
+          APPROVAL_RUN_ID: ${{ steps.prepare.outputs.approval_run_id }}
+          SOURCE_RUN_ID: ${{ steps.prepare.outputs.source_run_id }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const fs = require("node:fs");
+            const body = fs.readFileSync("out/codex-implementation/draft-pr-body.md", "utf8");
+            const title = `Draft: implement approved proposal ${process.env.PROPOSAL_ID}`;
+            const response = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              head: process.env.BRANCH_NAME,
+              base: "main",
+              draft: true,
+            });
+
+            core.summary
+              .addHeading("Draft Pull Request")
+              .addLink(`#${response.data.number}`, response.data.html_url)
+              .addRaw(`\n\nProposal: ${process.env.PROPOSAL_ID}`)
+              .addRaw(`\nApproval run: ${process.env.APPROVAL_RUN_ID}`)
+              .addRaw(`\nSource audit run: ${process.env.SOURCE_RUN_ID}`)
+              .write();
