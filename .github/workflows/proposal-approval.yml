@@ -1,0 +1,88 @@
+name: Proposal approval
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Daily site audit workflow run ID containing the ranked-proposals artifact"
+        required: true
+        type: string
+      proposal_id:
+        description: "Exact proposal_id to review"
+        required: true
+        type: string
+      decision:
+        description: "Human decision"
+        required: true
+        type: choice
+        options:
+          - approve
+          - reject
+          - defer
+      decision_reason:
+        description: "Reason for the decision"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  record-decision:
+    name: Record proposal decision
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download ranked proposals from the selected audit run
+        uses: actions/download-artifact@v4
+        with:
+          name: ranked-proposals
+          path: out/source-audit
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Record human decision
+        env:
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          PROPOSAL_ID: ${{ inputs.proposal_id }}
+          DECISION: ${{ inputs.decision }}
+          DECISION_REASON: ${{ inputs.decision_reason }}
+        run: node scripts/record-proposal-decision.mjs out/source-audit/ranked-proposals.json
+
+      - name: Upload approval audit record
+        uses: actions/upload-artifact@v4
+        with:
+          name: proposal-decision
+          path: out/proposal-decision/
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Approval boundary summary
+        env:
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          PROPOSAL_ID: ${{ inputs.proposal_id }}
+          DECISION: ${{ inputs.decision }}
+        run: |
+          {
+            echo "## Proposal decision"
+            echo "- Source audit run: $SOURCE_RUN_ID"
+            echo "- Proposal: $PROPOSAL_ID"
+            echo "- Decision: $DECISION"
+            echo "- Actor: $GITHUB_ACTOR"
+            echo
+            if [ "$DECISION" = "approve" ]; then
+              echo "An approved-proposal.json artifact was created."
+              echo "No implementation workflow was dispatched by this workflow."
+            else
+              echo "No approved-proposal.json was created."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
